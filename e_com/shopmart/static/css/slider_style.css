@@ -1,10 +1,10 @@
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 .slider img {
   object-fit: cover;
   object-position: top;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
+}
+
+.slider {
+  margin-top: -17px;
 }

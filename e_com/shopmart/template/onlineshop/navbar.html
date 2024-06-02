@@ -1,17 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shop Mart</title>
+    <title>Nav Bar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/nav_style.css' %}"
+      type="text/css"
+    />
   </head>
   <body>
-    <div class="navbar">
-      <span class="navbar-logo">MyLogo</span>
-      <a href="#home">Home</a>
-      <a href="#news">News</a>
-      <a href="#contact">Contact</a>
-      <a href="#about">About</a>
+    <div class="menu__bar">
+      <h1 class="logo">Shop<span>Mart</span></h1>
+
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li>
+          <a href="#">Pages <i class="fas fa-caret-down"></i></a>
+          <div class="dropdown__menu">
+            <ul>
+              <li><a href="#">Pricing</a></li>
+              <li><a href="#">Portfolio</a></li>
+              <li>
+                <a href="#">Team <i class="fas fa-caret-right"></i></a>
+                <div class="dropdown__menu-1">
+                  <ul>
+                    <li><a href="#">Team-1</a></li>
+                    <li><a href="#">Team-2</a></li>
+                    <li><a href="#">Team-3</a></li>
+                    <li><a href="#">Team-4</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+        </li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
     </div>
+    <section class="hero">&nbsp;</section>
   </body>
 </html>
