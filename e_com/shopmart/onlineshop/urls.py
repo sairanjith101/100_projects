@@ -4,5 +4,6 @@ from onlineshop import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('register/', views.register, name='register')
+    path('register/', views.register, name='register'),
+    path('collections/', views.collections, name='collections')
 ]

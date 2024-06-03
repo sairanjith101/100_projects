@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% extends 'onlineshop/base.html' %} {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %} Collections | Online Shopping {% endblock title %}
+    </title>
+    <!-- <link
+      rel="stylesheet"
+      href="{% static 'css/col_style..css' %}"
+      type="text/css"
+    /> -->
+  </head>
+  <body>
+    {% block content %}
+    <div class="container">
+      <h1 class="fw-light">Bestsellers</h1>
+      <p class="lead">
+        Our most popular products based on sales. Updated hourly.
+      </p>
+      <p>
+        <a href="#" class="btn btn-primary">Already User</a>
+        <a href="#" class="btn btn-secondary">Register</a>
+      </p>
+    </div>
+    {% endblock content %}
+  </body>
+</html>
