@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  {% extends 'onlineshop/base.html' %}
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      {% block title %} Shop Mart | Online Shopping {% endblock title %}
-    </title>
-  </head>
-  <body>
-    {% block content %} {% include 'onlineshop/slider.html'%}
-    <h1>Welcome to OurWorld</h1>
-    {% endblock %}
-  </body>
-</html>
+{% extends 'onlineshop/base.html' %} {% block title %} Shop Mart | Online
+Shopping {% endblock title %} {% block content %} 
+{% include 'onlineshop/slider.html' %}
+<h1>Welcome to OurWorld</h1>
+{% endblock %}

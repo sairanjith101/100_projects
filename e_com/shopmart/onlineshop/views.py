@@ -9,5 +9,5 @@ def register(request):
     return render(request, 'onlineshop/register.html')
 
 def collections(request):
-    catagory = Catagory.objects.filter(status=0)
-    return render(request, 'onlineshop/collections.html', {"catagory":catagory})
+    categories = Catagory.objects.filter(status=0)
+    return render(request, 'onlineshop/collections.html', {"categories":categories})

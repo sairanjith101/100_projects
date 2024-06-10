@@ -1,30 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-  {% extends 'onlineshop/base.html' %} {% load static %}
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      {% block title %} Collections | Online Shopping {% endblock title %}
-    </title>
-    <!-- <link
-      rel="stylesheet"
-      href="{% static 'css/col_style..css' %}"
-      type="text/css"
-    /> -->
-  </head>
-  <body>
-    {% block content %}
-    <div class="container">
-      <h1 class="fw-light">Bestsellers</h1>
-      <p class="lead">
-        Our most popular products based on sales. Updated hourly.
-      </p>
-      <p>
-        <a href="#" class="btn btn-primary">Already User</a>
-        <a href="#" class="btn btn-secondary">Register</a>
-      </p>
+{% extends 'onlineshop/base.html' %} {% load static %} {% block title %}
+Collections | Online Shopping {% endblock title %} {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/col.css' %}" />
+<section class="sec_1">
+  <div class="container">
+    <h1 class="fw-light">Bestsellers</h1>
+    <p class="lead">
+      Our most popular products based on sales. Updated hourly.
+    </p>
+    <p>
+      <a href="#" class="already_user"><button>Already User</button></a>
+      <a href="#" class="register"><button>Register</button></a>
+    </p>
+  </div>
+</section>
+<section class="sec_2">
+  <div class="con_2">
+    <h1 class="cat">Categories</h1>
+    <hr />
+  </div>
+
+  {% for item in categories %}
+  <div class="product-card">
+    <div class="card-image">
+      <img src="{{ item.image.url }}" alt="Categories" />
     </div>
-    {% endblock content %}
-  </body>
-</html>
+    <div class="card-body">
+      <h5 class="card-title">{{ item.name }}</h5>
+      <p class="card-text">Hyper Text Markup Language</p>
+      <a href="" class="view-details">View Details</a>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+{% endblock content %}

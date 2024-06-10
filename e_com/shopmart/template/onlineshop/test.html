@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .product-card {
+        width: 100%;
+        max-width: 300px; /* Adjust as needed */
+        margin: 1.5rem 0.75rem; /* my-3 equivalent */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-card .card-image img {
+        width: 100%;
+        height: auto;
+      }
+
+      .product-card .card-body {
+        padding: 1rem;
+      }
+
+      .product-card .card-title {
+        font-size: 1.25rem; /* h5 equivalent */
+        color: #007bff; /* Bootstrap's primary color */
+        margin-bottom: 0.5rem;
+      }
+
+      .product-card .card-text {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .product-card .view-details {
+        display: inline-block;
+        padding: 0.375rem 0.75rem; /* btn-sm equivalent */
+        font-size: 0.875rem; /* btn-sm equivalent */
+        color: #fff;
+        background-color: #007bff; /* Bootstrap's primary color */
+        border: none;
+        border-radius: 0.2rem; /* btn-sm equivalent */
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .product-card .view-details:hover {
+        background-color: #0056b3; /* Darker shade for hover effect */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="product-card">
+      <div class="card-image">
+        <img src="" alt="Categories" />
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Product Name</h5>
+        <p class="card-text">Hyper Text Markup Language</p>
+        <a href="" class="view-details">View Details</a>
+      </div>
+    </div>
+  </body>
+</html>
