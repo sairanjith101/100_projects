@@ -123,7 +123,7 @@ button {
 }
 
 .con_2 {
-  background-color: #0e1314;
+  background-color: whitesmoke;
   max-width: 1200px;
   margin: 50px auto;
   padding: 10px;
@@ -132,12 +132,12 @@ button {
 h1.cat {
   margin: 0;
   padding: 0;
-  color: white;
+  color: black;
 }
 
 hr {
   border: none;
   height: 2px;
-  background-color: white;
+  background-color: #b8bfc2;
   margin: 10px 0;
 }
