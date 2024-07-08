@@ -1,24 +1,26 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 <style>
-  /* Include Font Awesome CSS */
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
-
   .footer {
     background-color: #343a40;
     color: white;
-    padding: 40px 0;
+    padding: 10px 0;
     text-align: center;
     font-family: Arial, sans-serif;
+    min-height: 200px;
+    position: relative;
   }
 
   .footer .social-networks {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+    padding: 0 250px;
   }
 
   .footer .social-text {
-    margin-right: 2rem;
+    margin-right: 1rem;
     display: none;
     font-size: 1.2rem;
   }
@@ -31,7 +33,7 @@
   }
 
   .footer .links {
-    margin-top: 2rem;
+    margin-top: 5rem;
   }
 
   .footer .container {
@@ -49,13 +51,15 @@
   .footer .column {
     flex: 1;
     min-width: 200px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 3rem;
+    padding: 0 1rem;
   }
 
   .footer .title {
     text-transform: uppercase;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+    font-size: 1rem;
   }
 
   .footer .text-reset {
@@ -63,10 +67,19 @@
     text-decoration: none;
   }
 
+  .footer p {
+    margin-bottom: 1.2rem;
+  }
+
   .footer .copyright {
-    padding: 0.3rem 0;
+    width: 100%;
     text-align: center;
+    padding: 0.3rem 0;
     font-size: 0.875rem;
+    background-color: #282d32;
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 
   @media (min-width: 992px) {
@@ -79,18 +92,19 @@
     }
   }
 </style>
+
 <footer class="footer">
   <section class="social-networks">
     <div class="social-text">
       <span>Get connected with us on social networks:</span>
     </div>
     <div class="social-icons">
-      <a href=""><i class="fa fa-facebook"></i></a>
-      <a href=""><i class="fa fa-twitter"></i></a>
-      <a href=""><i class="fa fa-google"></i></a>
-      <a href=""><i class="fa fa-instagram"></i></a>
-      <a href=""><i class="fa fa-linkedin"></i></a>
-      <a href=""><i class="fa fa-github"></i></a>
+      <a href="#"><i class="fa fa-facebook"></i></a>
+      <a href="#"><i class="fa fa-twitter"></i></a>
+      <a href="#"><i class="fa fa-google"></i></a>
+      <a href="#"><i class="fa fa-instagram"></i></a>
+      <a href="#"><i class="fa fa-linkedin"></i></a>
+      <a href="#"><i class="fa fa-github"></i></a>
     </div>
   </section>
 
