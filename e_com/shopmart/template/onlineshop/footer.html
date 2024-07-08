@@ -1,0 +1,139 @@
+<style>
+  /* Include Font Awesome CSS */
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+
+  .footer {
+    background-color: #343a40;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+
+  .footer .social-networks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .footer .social-text {
+    margin-right: 2rem;
+    display: none;
+    font-size: 1.2rem;
+  }
+
+  .footer .social-icons a {
+    margin-right: 1rem;
+    color: inherit;
+    font-size: 1.5rem;
+    text-decoration: none;
+  }
+
+  .footer .links {
+    margin-top: 2rem;
+  }
+
+  .footer .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .footer .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .footer .column {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer .title {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .footer .text-reset {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .footer .copyright {
+    padding: 0.3rem 0;
+    text-align: center;
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 992px) {
+    .footer .social-text {
+      display: block;
+    }
+
+    .footer .social-networks {
+      justify-content: space-between;
+    }
+  }
+</style>
+<footer class="footer">
+  <section class="social-networks">
+    <div class="social-text">
+      <span>Get connected with us on social networks:</span>
+    </div>
+    <div class="social-icons">
+      <a href=""><i class="fa fa-facebook"></i></a>
+      <a href=""><i class="fa fa-twitter"></i></a>
+      <a href=""><i class="fa fa-google"></i></a>
+      <a href=""><i class="fa fa-instagram"></i></a>
+      <a href=""><i class="fa fa-linkedin"></i></a>
+      <a href=""><i class="fa fa-github"></i></a>
+    </div>
+  </section>
+
+  <section class="links">
+    <div class="container">
+      <div class="row">
+        <div class="column">
+          <h6 class="title"><i class="fa fa-cart-plus"></i> ShopMart</h6>
+          <p>
+            shopmart.com is a one-stop destination for your family's fashion
+            needs. We give you the opportunity to give your wardrobe a makeover
+            with the latest collections from our top brands.
+          </p>
+        </div>
+
+        <div class="column">
+          <h6 class="title">Products</h6>
+          <p><a href="#!" class="text-reset">Menu</a></p>
+          <p><a href="#!" class="text-reset">Menu</a></p>
+          <p><a href="#!" class="text-reset">Menu</a></p>
+          <p><a href="#!" class="text-reset">Menu</a></p>
+        </div>
+
+        <div class="column">
+          <h6 class="title">Useful links</h6>
+          <p><a href="#!" class="text-reset">Menu</a></p>
+          <p><a href="#!" class="text-reset">Menu</a></p>
+          <p><a href="#!" class="text-reset">Menu</a></p>
+          <p><a href="#!" class="text-reset">Menu</a></p>
+        </div>
+
+        <div class="column">
+          <h6 class="title">Contact</h6>
+          <p><i class="fa fa-home"></i> Shop Mart</p>
+          <p><i class="fa fa-envelope"></i> info@example.com</p>
+          <p><i class="fa fa-phone"></i> +91 9876543210</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="copyright">
+    &copy; 2021 Copyright
+    <a href="#" class="text-reset fw-bold"> shopmart.in</a>
+  </div>
+</footer>

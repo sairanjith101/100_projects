@@ -1,17 +1,17 @@
-{% extends 'onlineshop/base.html' %} {% load static %} {% block title %}
-Collections | Online Shopping {% endblock title %} {% block content %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'css/product.css' %}" />
-
+{% extends 'onlineshop/base.html' %}
+{% load static %}
+{% block title %} Collections | Online Shopping {% endblock title %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/pro.css' %}" />
 <section class="bg-light py-4 my-5">
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <h4 class="mb-3" id="awesome-title">Awesome Products</h4>
+        <h4 class="mb-3" id="awesome-title">{{category_name}} Products</h4>
         <hr style="border-color: #b8bfc2" />
       </div>
       <div class="product-grid">
-        {% for item in products %}        
+        {% for item in products %}
         <div class="product-card">
           <div class="card-image">
             {% if item.product_image %}
@@ -22,12 +22,8 @@ Collections | Online Shopping {% endblock title %} {% block content %}
             <div class="card-body">
               <h5 class="card-title">{{ item.name }}</h5>
               <p class="card-text">
-                <span class="original-price"
-                  ><s>Rs.{{ item.original_price|stringformat:'d' }}</s></span
-                >
-                <span class="selling-price"
-                  >Rs.{{ item.selling_price|stringformat:'d' }}</span
-                >
+                <span class="float-start original-price"><s>Rs.{{ item.original_price|stringformat:'d' }}</s></span>
+                <span class="float-end selling-price">Rs.{{ item.selling_price|stringformat:'d' }}</span>
               </p>
               <!-- <a href="" class="view-details">View Details</a> -->
             </div>
@@ -38,5 +34,4 @@ Collections | Online Shopping {% endblock title %} {% block content %}
     </div>
   </div>
 </section>
-
 {% endblock content %}

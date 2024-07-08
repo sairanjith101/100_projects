@@ -21,13 +21,15 @@
   <body>
     <div class="menu__bar">
       <!-- <h1 class="logo">Shop<span>Mart</span></h1> -->
-      <a href="{% url 'home' %}" class="logo">Shop<span>Mart</span></a>
+      <a href="{% url 'home' %}" class="logo"
+        ><i class="fa fa-cart-plus"></i> Shop<span>Mart</span></a
+      >
 
       <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'register' %}">Register</a></li>
-        <li>
-          <a href="#">Pages <i class="fas fa-caret-down"></i></a>
+        <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="{% url 'register' %}"><i class="fa fa-user"></i> Register</a></li>
+        <!-- <li>
+          <a href="#"><i class="fa fa-file"></i> Pages <i class="fas fa-caret-down"></i></a>
           <div class="dropdown__menu">
             <ul>
               <li><a href="#">Pricing</a></li>
@@ -46,9 +48,10 @@
               <li><a href="#">FAQ</a></li>
             </ul>
           </div>
-        </li>
-        <li><a href="{% url 'collections' %}">Collections</a></li>
-        <li><a href="#">Contact Us</a></li>
+        </li> -->
+        <li><a href="{% url 'collections' %}"><i class="fa fa-cubes"></i> Collections</a></li>
+        <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+        <li><a href="#"><i class="fa fa-envelope"></i> Contact Us</a></li>
       </ul>
     </div>
     <section class="hero">&nbsp;</section>
