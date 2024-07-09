@@ -1,6 +1,6 @@
 {% extends 'onlineshop/base.html' %} {% load static %} {% block title %}
 Collections | Online Shopping {% endblock title %} {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/prod.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/prod_style.css' %}" />
 <section class="bg-light py-4 my-5">
   <div class="container">
     <div class="row">
@@ -16,7 +16,7 @@ Collections | Online Shopping {% endblock title %} {% block content %}
             <img src="{{ item.product_image.url}}" alt="Categories" />
             {% endif %}
           </div>
-          <a href="{% url 'collections' item.name %}">
+          <a href="{% url 'product_details' category_name item.name %}"> 
             <div class="card-body">
               <h5 class="card-title">{{ item.name }}</h5>
               <p class="card-text">

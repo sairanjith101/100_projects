@@ -1,0 +1,18 @@
+{% extends 'onlineshop/base.html' %} {% load static %} {% block title %}
+Collections | Online Shopping {% endblock title %} {% block content %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/prod_style.css' %}"
+/>
+<section class="bg-light py-4 my-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4 class="mb-3">{{products}} Details</h4>
+        <hr style="border-color: #b8bfc2" />
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
