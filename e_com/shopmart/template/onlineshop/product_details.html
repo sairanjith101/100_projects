@@ -30,12 +30,12 @@ Collections | Online Shopping {% endblock title %} {% block content %}
       </div>
       <div class="col-8 my-3">
         <h5 class="text-success">{{ products | upper }}</h5>
-        <p>{{ products.vendor }}</p>
-        <p>{{ products.description }}</p>
+        <p class="vendor">{{ products.vendor }}</p>
+        <p class="description">{{ products.description }}</p>
         <h6 class="my-2">
           Current Price : Rs. <s>{{ products.original_price }}</s>
         </h6>
-        <h5 class="my-2">Offer Price : Rs.{{ products.selling_price }}</h5>
+        <h5 class="my-2" id="offer-price">Offer Price : Rs.{{ products.selling_price }}</h5>
         <div class="my-3">
           <button class="btn-primary">
             <i class="fa fa-cart"></i> Add to Cart
