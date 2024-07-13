@@ -16,7 +16,7 @@ Collections | Online Shopping {% endblock title %} {% block content %}
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
             <li class="breadcrumb-item">
-              <a href="{% url 'collections' products %}"
+              <a href="{% url 'collections' products.catagory %}"
                 >Collections</a
               >
             </li>
@@ -52,9 +52,15 @@ Collections | Online Shopping {% endblock title %} {% block content %}
           Offer Price : Rs.{{ products.selling_price }}
         </h5>
         <div class="my-3">
+          {% if products.quantity > 0 %}
           <button class="btn-primary">
-            <i class="fa fa-cart"></i> Add to Cart
+            <i class="fa fa-shopping-cart"></i> Add to Cart
           </button>
+          {% else %}
+          <button class="btn-secondary">
+            <i class="fa fa-minus"></i> Out of Stock
+          </button>
+          {% endif %}
           <button class="btn-danger">
             <i class="fa fa-heart"></i>
           </button>

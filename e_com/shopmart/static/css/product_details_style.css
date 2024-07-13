@@ -143,6 +143,17 @@ html {
   border-color: #bd2130; /* Adjusted hover color */
 }
 
+/* Styles for Out of Stock button */
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268; /* Adjusted hover color */
+  border-color: #545b62; /* Adjusted hover color */
+}
+
 .fa {
   margin-right: 0.25rem;
 }
