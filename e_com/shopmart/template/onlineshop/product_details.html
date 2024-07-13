@@ -3,7 +3,7 @@ Collections | Online Shopping {% endblock title %} {% block content %}
 <link
   rel="stylesheet"
   type="text/css"
-  href="{% static 'css/product_details.css' %}"
+  href="{% static 'css/product_details_style.css' %}"
 />
 
 <section class="bg-light py-4 my-5" style="min-height: 600px">
@@ -12,6 +12,19 @@ Collections | Online Shopping {% endblock title %} {% block content %}
       <div class="col-12">
         <h4 class="mb-3" id="awesome-title">{{ products }} Details</h4>
         <hr style="border-color: #b8bfc2" />
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item">
+              <a href="{% url 'collections' products %}"
+                >Collections</a
+              >
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ products }}
+            </li>
+          </ol>
+        </nav>
       </div>
       <div class="col-4 my-3">
         <div class="product-grid">
@@ -32,10 +45,12 @@ Collections | Online Shopping {% endblock title %} {% block content %}
         <h5 class="text-success">{{ products | upper }}</h5>
         <p class="vendor">{{ products.vendor }}</p>
         <p class="description">{{ products.description }}</p>
-        <h6 class="my-2">
+        <h6 class="my-2" id="original-price">
           Current Price : Rs. <s>{{ products.original_price }}</s>
         </h6>
-        <h5 class="my-2" id="offer-price">Offer Price : Rs.{{ products.selling_price }}</h5>
+        <h5 class="my-2" id="offer-price">
+          Offer Price : Rs.{{ products.selling_price }}
+        </h5>
         <div class="my-3">
           <button class="btn-primary">
             <i class="fa fa-cart"></i> Add to Cart
