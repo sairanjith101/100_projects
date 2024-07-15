@@ -1,5 +1,35 @@
-{% extends 'onlineshop/base.html' %} {% block title %} Shop Mart | Online
-Shopping {% endblock title %} {% block content %} 
-{% include 'onlineshop/slider.html' %}
-<h1>Welcome to OurWorld</h1>
-{% endblock %}
+{% extends 'onlineshop/base.html' %} {% load static %} {% block title %}Shop
+Mart | Online Shopping{% endblock title %} {% block content %} {% include 'onlineshop/slider.html' %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
+<div class="container" style="margin-top: 70px">
+  <div class="row">
+    <div class="col-12">
+      <h1>Latest Offers</h1>
+    </div>
+    <div class="product-grid">
+      {% for item in products %}
+      <div class="product-card">
+        <div class="card-image">
+          {% if item.product_image %}
+          <img src="{{ item.product_image.url }}" alt="{{ item.name }}" />
+          {% endif %}
+        </div>
+        <a href="">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">
+              <span class="float-start original-price"
+                ><s>Rs.{{ item.original_price|stringformat:'d' }}</s></span
+              >
+              <span class="float-end selling-price"
+                >Rs.{{ item.selling_price|stringformat:'d' }}</span
+              >
+            </p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

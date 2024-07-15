@@ -66,8 +66,8 @@ html {
 .product-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
+  gap: 35px;
+  justify-content: flex-start;
 }
 
 /* Product card styles */
@@ -110,6 +110,7 @@ html {
 }
 
 .btn-primary,
+.btn-secondary,
 .btn-danger {
   display: inline-block;
   font-weight: 400;
@@ -216,4 +217,23 @@ section.bg-light {
 
 .breadcrumb-item.active {
   color: #6c757d; /* Active breadcrumb color */
+}
+
+.pic-box {
+  position: relative;
+}
+
+.hot {
+  background-color: orangered;
+  color: white;
+  width: 50px;
+  text-align: center;
+  font-weight: bold;
+  display: inline;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  top: 5px;
+  right: 38px;
+  z-index: 10;
 }

@@ -4,7 +4,8 @@ from django.contrib import messages
 
 # Create your views here.
 def home(request):
-    return render(request, 'onlineshop/index.html')
+    products = Product.objects.filter(trending=1)
+    return render(request, 'onlineshop/index.html', {"products":products})
 
 def register(request):
     return render(request, 'onlineshop/register.html')
