@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect,HttpResponse
+from .form import CustomUserForm
 from .models import *
 from django.contrib import messages
 
@@ -8,7 +9,8 @@ def home(request):
     return render(request, 'onlineshop/index.html', {"products":products})
 
 def register(request):
-    return render(request, 'onlineshop/register.html')
+    form = CustomUserForm()
+    return render(request, 'onlineshop/register.html', {'form': form})
 
 def collections(request):
     categories = Catagory.objects.filter(status=0)

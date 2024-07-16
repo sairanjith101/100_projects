@@ -5,11 +5,72 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shop Mart</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/slider_style.css' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/slider.css' %}"
+    />
   </head>
   <body>
     <div class="slider">
-      <img src="{% static 'images/slider_1.jpg' %}" alt="Slider Image" />
+      <div class="slides">
+        <img src="{% static 'images/slider_1.jpg' %}" alt="Slider Image 1" />
+        <img src="{% static 'images/banner1.jpg' %}" alt="Slider Image 2" />
+        <img src="{% static 'images/banner2.jpg' %}" alt="Slider Image 3" />
+        <img src="{% static 'images/banner3.jpg' %}" alt="Slider Image 4" />
+      </div>
+      <div class="navigation">
+        <button id="prev">&#10094;</button>
+        <button id="next">&#10095;</button>
+      </div>
     </div>
+
+    <script>
+      const slides = document.querySelector(".slides");
+      const images = document.querySelectorAll(".slides img");
+      const prevBtn = document.getElementById("prev");
+      const nextBtn = document.getElementById("next");
+      let counter = 0;
+
+      function moveSlides() {
+        const size = slides.clientWidth / images.length; // Calculate the size based on the number of images
+        slides.style.transform = "translateX(" + -size * counter + "px)";
+      }
+
+      nextBtn.addEventListener("click", () => {
+        counter = (counter + 1) % images.length;
+        moveSlides();
+      });
+
+      prevBtn.addEventListener("click", () => {
+        counter = (counter - 1 + images.length) % images.length;
+        moveSlides();
+      });
+
+      function autoSlide() {
+        counter = (counter + 1) % images.length;
+        moveSlides();
+      }
+
+      let autoSlideInterval = setInterval(autoSlide, 3000); // Change image every 3 seconds
+
+      // Pause auto-slide on button hover
+      prevBtn.addEventListener("mouseover", () =>
+        clearInterval(autoSlideInterval)
+      );
+      nextBtn.addEventListener("mouseover", () =>
+        clearInterval(autoSlideInterval)
+      );
+
+      // Resume auto-slide on mouse leave
+      prevBtn.addEventListener(
+        "mouseleave",
+        () => (autoSlideInterval = setInterval(autoSlide, 3000))
+      );
+      nextBtn.addEventListener(
+        "mouseleave",
+        () => (autoSlideInterval = setInterval(autoSlide, 3000))
+      );
+    </script>
   </body>
 </html>

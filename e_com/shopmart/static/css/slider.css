@@ -1,0 +1,65 @@
+/* Reset and General Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Slider Styles */
+.slider {
+  margin-top: -17px;
+  height: 50vh; /* Adjust as needed */
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.slider .slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  height: 100%;
+  width: 400%; /* Ensure the container is wide enough to hold all images */
+}
+
+.slider .slides img {
+  width: 25%; /* Each image should take up an equal portion of the container */
+  height: 100%;
+  object-fit: cover;
+}
+
+.navigation {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.navigation button {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Media Query for Responsive Adjustments */
+@media (max-width: 768px) {
+  .slider {
+    height: 30vh; /* Adjust slider height for smaller screens */
+  }
+  .slider .slides img {
+    width: 100%; /* Adjust image width for smaller screens */
+  }
+}
