@@ -1,0 +1,29 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/message.css' %}" />
+{% for msg in messages %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+  {{msg}}
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+{% endfor %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var closeButtons = document.querySelectorAll(".btn-close");
+
+    closeButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        var alert = this.parentElement;
+        alert.style.opacity = "0";
+        setTimeout(function () {
+          alert.style.display = "none";
+        }, 150);
+      });
+    });
+  });
+</script>

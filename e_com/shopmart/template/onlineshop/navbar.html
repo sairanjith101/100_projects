@@ -12,11 +12,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link
-      rel="stylesheet"
-      href="{% static 'css/nav_style.css' %}"
-      type="text/css"
-    />
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}" type="text/css" />
   </head>
   <body>
     <div class="menu__bar">
@@ -26,32 +22,37 @@
       >
 
       <ul>
-        <li><a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="{% url 'register' %}"><i class="fa fa-user"></i> Register</a></li>
+        <li>
+          <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li>
+          <a href="#"><i class="fa fa-user"></i> {{request.user}}</a>
+        </li>
+        <li>
+          <a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Logout</a>
+        </li>
+        {% else %}        
+        <li>
+          <a href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Login</a>
+        </li>
+        <li>
+          <a href="{% url 'register' %}"
+            ><i class="fa fa-users"></i> Register</a
+          >
+        </li>
+        {% endif %}
+        <li>
+          <a href="{% url 'collections' %}"
+            ><i class="fa fa-cubes"></i> Collections</a
+          >
+        </li>
+        <li>
+          <a href="#"><i class="fa fa-shopping-cart"></i> Cart</a>
+        </li>
         <!-- <li>
-          <a href="#"><i class="fa fa-file"></i> Pages <i class="fas fa-caret-down"></i></a>
-          <div class="dropdown__menu">
-            <ul>
-              <li><a href="#">Pricing</a></li>
-              <li><a href="#">Portfolio</a></li>
-              <li>
-                <a href="#">Team <i class="fas fa-caret-right"></i></a>
-                <div class="dropdown__menu-1">
-                  <ul>
-                    <li><a href="#">Team-1</a></li>
-                    <li><a href="#">Team-2</a></li>
-                    <li><a href="#">Team-3</a></li>
-                    <li><a href="#">Team-4</a></li>
-                  </ul>
-                </div>
-              </li>
-              <li><a href="#">FAQ</a></li>
-            </ul>
-          </div>
+          <a href="#"><i class="fa fa-envelope"></i> Contact Us</a>
         </li> -->
-        <li><a href="{% url 'collections' %}"><i class="fa fa-cubes"></i> Collections</a></li>
-        <li><a href="#"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-        <li><a href="#"><i class="fa fa-envelope"></i> Contact Us</a></li>
       </ul>
     </div>
     <section class="hero">&nbsp;</section>

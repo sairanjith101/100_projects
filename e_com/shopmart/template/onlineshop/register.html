@@ -6,6 +6,7 @@ Register | Online Shopping {% endblock title %} {% block content %}
     <div class="col-12">
       <h4 class="mb-3">New User Registration</h4>
       <hr />
+      {% include 'onlineshop/message.html' %}
     </div>
   </div>
   <section class="py-4 my-5">
@@ -32,7 +33,7 @@ Register | Online Shopping {% endblock title %} {% block content %}
             </div>
             <button type="submit">Register</button>
           </form>
-          <p class="my-2">Already User? <a href="#">Login Now</a></p>
+          <p class="my-2">Already User? <a href="{% url 'login' %}">Login Now</a></p>
         </div>
         <div class="col-6">
           {% if form.errors.username %}

@@ -1,0 +1,59 @@
+.alert {
+  margin-top: 1rem;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  position: relative;
+  opacity: 1;
+  transition: opacity 0.15s linear;
+}
+
+.alert-info {
+  color: #055160;
+  background-color: #cff4fc;
+  border-color: #b6effb;
+}
+
+.alert-dismissible .btn-close {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #055160;
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.alert-dismissible .btn-close::after {
+  content: "×";
+  font-size: 1.5rem;
+}
+
+.alert-dismissible .btn-close:hover {
+  background-color: #055160;
+  color: #fff;
+}
+
+.alert-dismissible .btn-close:focus {
+  outline: none;
+}
+
+.alert.fade {
+  opacity: 0;
+  transition: opacity 0.15s linear;
+}
+
+.alert.show {
+  opacity: 1;
+}
