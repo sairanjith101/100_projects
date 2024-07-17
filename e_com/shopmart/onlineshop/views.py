@@ -8,8 +8,17 @@ def home(request):
     products = Product.objects.filter(trending=1)
     return render(request, 'onlineshop/index.html', {"products":products})
 
+def login(request):
+    return render(request, 'onlineshop/login.html')
+
 def register(request):
     form = CustomUserForm()
+    if request.method == 'POST':
+        form = CustomUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Registration Success You can Login Now...!")
+            return redirect('/login')
     return render(request, 'onlineshop/register.html', {'form': form})
 
 def collections(request):
