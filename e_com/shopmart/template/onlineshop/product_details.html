@@ -57,6 +57,8 @@ Collections | Online Shopping {% endblock title %} {% block content %}
         </h5>
         <div class="my-3">
           {% if products.quantity > 0 %}
+          <input type="hidden" value="{{products.id}}" id="pid">
+          
           <p>
             <div class="input-group" style="width: 115px;">
               <button class="input-group-text" id="btnMinus">-</button>
@@ -64,7 +66,7 @@ Collections | Online Shopping {% endblock title %} {% block content %}
               <button class="input-group-text" id="btnPlus">+</button>
             </div>
           </p>
-          <button class="btn-primary">
+          <button class="btn-primary" id="btnCart">
             <i class="fa fa-shopping-cart"></i> Add to Cart
           </button>
           {% else %}
@@ -86,6 +88,10 @@ Collections | Online Shopping {% endblock title %} {% block content %}
     const btnPlus = document.getElementById("btnPlus");
     const btnMinus = document.getElementById("btnMinus");
     const txtQty = document.getElementById("txtQty");
+    const pid = document.getElementById("pid");
+    const btnCart = document.getElementById("btnCart");
+
+
 
     btnPlus.addEventListener("click", function(){
       let qty=parseInt(txtQty.value,10);
@@ -104,6 +110,37 @@ Collections | Online Shopping {% endblock title %} {% block content %}
         txtQty.value=qty;
       }
     });
+
+    btnCart.addEventListener("click", function() {
+      let qty=parseInt(txtQty.value,10);
+      qty=isNaN(qty)?0:qty;
+
+      if(qty>0){
+        let postObj = {
+          'product_qty': qty,
+          'pid': pid.value,
+        }
+        // console.log(postObj);
+        fetch("/addtocart", {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers:{
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': '{{ csrf_token }}',
+          },
+          body: JSON.stringify(postObj)
+        }).then(response => {
+          return response.json();
+        }).then(data => {
+          // console.log(data);
+          alert(data['status']);
+        });
+
+      }else{
+        alert("Please Enter The Quantity");
+      }
+    }) 
   });
 </script>
 
