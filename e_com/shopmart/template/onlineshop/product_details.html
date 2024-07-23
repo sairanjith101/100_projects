@@ -74,7 +74,7 @@ Collections | Online Shopping {% endblock title %} {% block content %}
             <i class="fa fa-minus"></i> Out of Stock
           </button>
           {% endif %}
-          <button class="btn-danger">
+          <button class="btn-danger" id="btnFav">
             <i class="fa fa-heart"></i>
           </button>
         </div>
@@ -90,6 +90,7 @@ Collections | Online Shopping {% endblock title %} {% block content %}
     const txtQty = document.getElementById("txtQty");
     const pid = document.getElementById("pid");
     const btnCart = document.getElementById("btnCart");
+    const btnFav = document.getElementById("btnFav");
 
 
 
@@ -140,7 +141,31 @@ Collections | Online Shopping {% endblock title %} {% block content %}
       }else{
         alert("Please Enter The Quantity");
       }
-    }) 
+    })
+    
+    btnFav.addEventListener("click", function() {
+        let postObj = {
+          'pid': pid.value,
+        }
+        // console.log(postObj);
+        fetch("/fav", {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers:{
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': '{{ csrf_token }}',
+          },
+          body: JSON.stringify(postObj)
+        }).then(response => {
+          return response.json();
+        }).then(data => {
+          // console.log(data);
+          alert(data['status']);
+        });
+
+      
+    })
   });
 </script>
 

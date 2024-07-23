@@ -11,6 +11,18 @@ def home(request):
     products = Product.objects.filter(trending=1)
     return render(request, 'onlineshop/index.html', {"products":products})
 
+def favviewpage(request):
+    if request.user.is_authenticated:
+        fav=Favourite.objects.filter(user=request.user)
+        return render(request, 'onlineshop/fav.html', {"fav":fav})
+    else:
+        return redirect("/")
+    
+def remove_fav(request,fid):
+    item = Favourite.objects.get(id=fid)
+    item.delete()
+    return redirect("/favviewpage")
+
 def cart_page(request):
     if request.user.is_authenticated:
         cart=Cart.objects.filter(user=request.user)
@@ -22,6 +34,23 @@ def remove_cart(request,cid):
     cartitem = Cart.objects.get(id=cid)
     cartitem.delete()
     return redirect("/cart")
+
+def fav_page(request):
+    if request.headers.get('x-requested-with')=='XMLHttpRequest':
+        if request.user.is_authenticated:
+            data=json.load(request)
+            product_id = data['pid']
+            product_status = Product.objects.get(id=product_id)
+            if product_status:
+                if Favourite.objects.filter(user=request.user.id, product_id=product_id):
+                    return JsonResponse({'status': 'Product Already in Favourite'}, status=200)
+                else:
+                    Favourite.objects.create(user=request.user, product_id=product_id)
+                    return JsonResponse({'status': 'Product Added to Favourite'}, status=200)            
+        else:
+            return JsonResponse({'status': 'Login to Add Favourite'}, status=200)
+    else:
+        return JsonResponse({'status':'Invalid Access'}, status=200)
 
 def add_to_cart(request):
     if request.headers.get('x-requested-with')=='XMLHttpRequest':
