@@ -11,6 +11,18 @@ def home(request):
     products = Product.objects.filter(trending=1)
     return render(request, 'onlineshop/index.html', {"products":products})
 
+def cart_page(request):
+    if request.user.is_authenticated:
+        cart=Cart.objects.filter(user=request.user)
+        return render(request, 'onlineshop/cart.html', {"cart":cart})
+    else:
+        return redirect("/")
+    
+def remove_cart(request,cid):
+    cartitem = Cart.objects.get(id=cid)
+    cartitem.delete()
+    return redirect("/cart")
+
 def add_to_cart(request):
     if request.headers.get('x-requested-with')=='XMLHttpRequest':
         if request.user.is_authenticated:

@@ -14,7 +14,8 @@ Mart | Online Shopping{% endblock title %} {% block content %} {% include 'onlin
           <img src="{{ item.product_image.url }}" alt="{{ item.name }}" />
           {% endif %}
         </div>
-        <a href="{% url 'collections' %}">
+        <a
+          href="{% url 'product_details' item.catagory.name|urlencode item.name %}">
           <div class="card-body">
             <h5 class="card-title">{{ item.name }}</h5>
             <p class="card-text">
