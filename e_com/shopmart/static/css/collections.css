@@ -101,7 +101,7 @@
 
 /* Other styles */
 .container {
-  margin-top: 80px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -118,14 +118,37 @@ button {
   border-radius: 5px;
   padding: 8px;
   color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .already_user button {
   background-color: blue;
 }
 
+.already_user button:hover {
+  background-color: darkblue; /* Darker shade for hover */
+  /* transform: scale(1.05); */
+}
+
+.already_user button:focus {
+  outline: 3px solid #0056b3; /* Outline color for focus */
+  outline-offset: 2px;
+}
+
 .register button {
   background-color: gray;
+}
+
+.register button:hover {
+  background-color: darkgray; /* Darker shade for hover */
+  /* transform: scale(1.05);  */
+}
+
+.register button:focus {
+  outline: 3px solid #333; /* Outline color for focus */
+  outline-offset: 2px;
 }
 
 .con_2 {

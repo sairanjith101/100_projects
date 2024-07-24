@@ -3,7 +3,7 @@ Collections | Online Shopping {% endblock title %} {% block content %}
 <link
   rel="stylesheet"
   type="text/css"
-  href="{% static 'css/prod_details.css' %}"
+  href="{% static 'css/product_details.css' %}"
 />
 
 <section class="bg-light py-4 my-5" style="min-height: 600px">
@@ -16,9 +16,10 @@ Collections | Online Shopping {% endblock title %} {% block content %}
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
             <li class="breadcrumb-item">
-              <a href="{% url 'collections' products.catagory %}"
-                >Collections</a
-              >
+              <a href="{% url 'collections' %}">Collections</a>
+            </li>
+            <li class="breadcrumb-item active">
+              <a href="{% url 'collections' products.catagory %}"> {{ products.catagory }}</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
               {{ products }}

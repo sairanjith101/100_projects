@@ -3,7 +3,7 @@ Collections | Online Shopping {% endblock title %} {% block content %}
 <link
   rel="stylesheet"
   type="text/css"
-  href="{% static 'css/collections_style.css' %}"
+  href="{% static 'css/collections.css' %}"
 />
 <section class="sec_1">
   <div class="container">
@@ -12,8 +12,8 @@ Collections | Online Shopping {% endblock title %} {% block content %}
       Our most popular products based on sales. Updated hourly.
     </p>
     <p>
-      <a href="#" class="already_user"><button>Already User</button></a>
-      <a href="#" class="register"><button>Register</button></a>
+      <a href="{% url 'login' %}" class="already_user"><button>Already User</button></a>
+      <a href="{% url 'register' %}" class="register"><button>Register</button></a>
     </p>
   </div>
 </section>
