@@ -5,6 +5,7 @@ Collections | Online Shopping {% endblock title %} {% block content %}
   type="text/css"
   href="{% static 'css/collections.css' %}"
 />
+
 <section class="sec_1">
   <div class="container">
     <h1 class="fw-light">Bestsellers</h1>
@@ -12,8 +13,12 @@ Collections | Online Shopping {% endblock title %} {% block content %}
       Our most popular products based on sales. Updated hourly.
     </p>
     <p>
-      <a href="{% url 'login' %}" class="already_user"><button>Already User</button></a>
-      <a href="{% url 'register' %}" class="register"><button>Register</button></a>
+      <a href="{% url 'login' %}" class="already_user"
+        ><button>Already User</button></a
+      >
+      <a href="{% url 'register' %}" class="register"
+        ><button>Register</button></a
+      >
     </p>
   </div>
 </section>
