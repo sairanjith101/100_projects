@@ -21,14 +21,50 @@ body {
   transition: all 0.5s ease;
 }
 
+/* .sidebar header {
+  font-size: 25px;
+  font-weight: bold;
+  color: transparent;
+  text-align: center;
+  line-height: 70px;
+  background: linear-gradient(135deg,#006838,#96cf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  background: #063146;
+  user-select: none;
+}
+
+.header-link {
+  color: transparent;
+  text-decoration: none;
+} */
+
 .sidebar header {
   font-size: 25px;
   font-weight: bold;
-  color: white;
+  color: transparent;
   text-align: center;
   line-height: 70px;
   background: #063146;
+  position: relative;
   user-select: none;
+  padding: 0 20px;
+}
+
+.header-link {
+  color: transparent;
+  background: linear-gradient(
+    135deg,
+    #006838,
+    #96cf24
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  display: inline-block;
+}
+
+.header-link i {
+  margin-right: 15px;
 }
 
 .sidebar ul a {
@@ -102,9 +138,9 @@ label #cancel {
 }
 
 section {
-  background: url(/sidebar_img/build1.jpg) no-repeat;
+  background: url("/static/image/build1.jpg") no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;
-  transition: all .5s;
+  transition: all 0.5s;
 }
