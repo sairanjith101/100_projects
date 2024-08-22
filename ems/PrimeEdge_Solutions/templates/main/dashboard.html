@@ -1,0 +1,8 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %} Prime Edge Solutions | Dashboard {% endblock title %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" type="text/css" />
+<h1>Welcome to the Home Page</h1>
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% extends 'main/base.html' %} {% load static %} {% block title %} Prime Edge
+Solutions | Dashboard {% endblock title %} {% block content %}
+<h1>Login</h1>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>
+<a href="{% url 'register' %}">Register</a>
+{% endblock content %}
