@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import RegistrationForm, LoginForm
-from .models import Employee, Company, Attendance
+from .models import Employee, Department, Attendance
 from django.contrib.auth.decorators import user_passes_test
 
 
@@ -46,11 +46,6 @@ def profile_info(request):
 def employees_page(request):
     employees = Employee.objects.all()
     return render(request, 'main/employees.html', {'employees': employees})
-
-@login_required
-def company_page(request):
-    companies = Company.objects.all()
-    return render(request, 'main/company.html', {'companies': companies})
 
 @login_required
 def help_page(request):
