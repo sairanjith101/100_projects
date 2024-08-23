@@ -7,7 +7,7 @@
     <title>Side Menu Bar</title>
     <link
       rel="stylesheet"
-      href="{% static 'css/sidebar_v0.css' %}"
+      href="{% static 'css/sidebar_v1.css' %}"
       type="text/css"
     />
     <link
@@ -31,7 +31,7 @@
         <li><a href="#"><i class="fas fa-clock"></i>Attendance</a></li>
         <li><a href="#"><i class="fas fa-calendar-alt"></i>Leave</a></li>
         <li><a href="#"><i class="fa fa-question-circle"></i>Help</a></li>
-        <li><a href="#"><i class="fas fa-sign-in-alt"></i>Login</a></li>
+        <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i>Login</a></li>
         <li><a href="#"><i class="fa fa-user-plus"></i>Register</a></li>
         <li><a href="#"><i class="fa fa-sign-out-alt"></i>Logout</a></li>
         

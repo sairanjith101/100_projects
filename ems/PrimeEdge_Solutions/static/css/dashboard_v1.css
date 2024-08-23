@@ -1,0 +1,254 @@
+section {
+  background: none;
+  background-color: #f7f7f7;
+  height: auto;
+}
+
+/* General Styling */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+.dashboard-container {
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.section-title {
+  font-size: 28px;
+  color: #042331;
+  margin-bottom: 15px;
+  border-bottom: 3px solid #006838;
+  padding-bottom: 10px;
+}
+
+.dashboard-section {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.available-projects .projects-list,
+.completed-projects .projects-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.project-item {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  width: 30%;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.project-item:hover {
+  background: #e3f2fd;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.project-item h3 {
+  font-size: 22px;
+  color: #042331;
+  margin-bottom: 10px;
+}
+
+.project-item p {
+  font-size: 16px;
+  color: #333;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.status.active {
+  color: #28a745;
+}
+
+.status.completed {
+  color: #6c757d;
+}
+
+/* Team Overview Section */
+
+.team-overview .team-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.team-item {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 10px;
+  width: 30%;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-item:hover {
+  background: #e3f2fd;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.team-item h3 {
+  font-size: 20px;
+  color: #042331;
+  margin-bottom: 10px;
+}
+
+.team-item p {
+  font-size: 16px;
+  color: #333;
+}
+
+.team-photo {
+  max-height: 80px;
+  width: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Total Employees Section */
+.total-employees {
+  background: #fff;
+  padding: 20px;
+}
+
+.employee-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.summary-item {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 15px;
+  flex: 1;
+  margin: 0 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.summary-item:hover {
+  background-color: #e3f2fd;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.summary-title {
+  font-size: 20px;
+  color: #042331;
+  margin-bottom: 10px;
+}
+
+.summary-value {
+  font-size: 24px;
+  color: #006838;
+}
+
+.employee-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recent-hires {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recent-hires h3 {
+  font-size: 24px;
+  color: #042331;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.recent-hires-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.hire-item {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.hire-details {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.hire-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin-right: 15px;
+}
+
+.hire-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.hire-name {
+  font-size: 18px;
+  color: #042331;
+  font-weight: bold;
+}
+
+.hire-date {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.hire-item:hover {
+  background-color: #d0eaff;
+  transform: scale(1.02);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+@media (max-width: 768px) {
+  .project-item, .team-item {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  .section-title {
+    font-size: 24px;
+  }
+
+  .summary-title, .summary-value {
+    font-size: 18px;
+  }
+}
