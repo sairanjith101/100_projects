@@ -149,7 +149,7 @@ def purchase_view(request):
                     # Delete the specific cart item
                     cart_item.delete()
 
-                    messages.success(request, f'Product "{product.name}" removed from cart successfully!')
+                    messages.success(request, f'Product "{product.name}" Purchase completed successfully!')
                 except Product.DoesNotExist:
                     messages.error(request, 'Product not found.')
                 except Cart.DoesNotExist:
