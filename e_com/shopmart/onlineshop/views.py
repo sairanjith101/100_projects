@@ -130,3 +130,36 @@ def product_details(request,cname,pname):
     else:
         messages.error(request, "No such Category Found")
         return redirect('collections')
+
+def purchase_view(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            product_id = request.POST.get('product_id')
+            print(f"Product ID received: {product_id}")  # Debug
+
+            if product_id:
+                try:
+                    # Fetch the specific product and its cart item
+                    product = Product.objects.get(id=product_id)
+                    print(f"Product found: {product.name}")  # Debug
+
+                    cart_item = Cart.objects.get(user=request.user, product=product)
+                    print(f"Cart item found for user: {request.user.username}")  # Debug
+
+                    # Delete the specific cart item
+                    cart_item.delete()
+
+                    messages.success(request, f'Product "{product.name}" removed from cart successfully!')
+                except Product.DoesNotExist:
+                    messages.error(request, 'Product not found.')
+                except Cart.DoesNotExist:
+                    messages.error(request, 'Item not found in your cart.')
+
+            else:
+                messages.error(request, 'No product specified.')
+
+            return redirect('/') 
+        else:
+            return redirect('/login')
+    else:
+        return redirect('cart')
