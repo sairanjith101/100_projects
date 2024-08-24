@@ -149,7 +149,7 @@ def purchase_view(request):
                     # Delete the specific cart item
                     cart_item.delete()
 
-                    messages.success(request, f'Product "{product.name}" Purchase completed successfully!')
+                    messages.success(request, f'Product "{product.name}": Thank you! Your purchase has been completed.')
                 except Product.DoesNotExist:
                     messages.error(request, 'Product not found.')
                 except Cart.DoesNotExist:
@@ -158,7 +158,7 @@ def purchase_view(request):
             else:
                 messages.error(request, 'No product specified.')
 
-            return redirect('/') 
+            return redirect('cart') 
         else:
             return redirect('/login')
     else:

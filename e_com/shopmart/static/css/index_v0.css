@@ -95,26 +95,16 @@ html {
   margin-bottom: 1rem;
 }
 
-@media (max-width: 1200px) {
-  .product-card {
-    flex: 1 1 calc(33.33% - 20px);
-    max-width: calc(33.33% - 20px);
-  }
-}
 
-@media (max-width: 900px) {
-  .product-card {
-    flex: 1 1 calc(50% - 20px);
-    max-width: calc(50% - 20px);
-  }
-}
 
-@media (max-width: 600px) {
+@media only screen and (max-width: 600px) {
   .product-card {
     flex: 1 1 100%;
     max-width: 100%;
   }
 }
+
+
 /* Price Styles */
 .original-price {
   text-decoration: line-through;
