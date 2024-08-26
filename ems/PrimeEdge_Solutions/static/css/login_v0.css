@@ -1,0 +1,139 @@
+section {
+  background: none;
+  /* background-color: #f7f7f7; */
+  height: auto;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #e8f9f0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 440px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  width: 100%;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper .title {
+  height: 90px;
+  background: #063146;
+  border-radius: 5px 5px 0 0;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper form {
+  padding: 30px 25px;
+}
+
+.wrapper form .row {
+  height: 45px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.wrapper form .row input {
+  height: 100%;
+  width: calc(100% - 47px); /* Adjust width to fit the icon */
+  outline: none;
+  padding-left: 60px; /* Space for the icon */
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.wrapper form .row input:focus {
+  border-color: #063146;
+  box-shadow: inset 0px 0px 2px 2px rgba(26, 188, 156, 0.25);
+}
+
+.wrapper form .row input::placeholder {
+  color: #999; /* Placeholder text color */
+  font-size: 16px; /* Placeholder text size */
+}
+
+.wrapper form .row i {
+  position: absolute;
+  width: 47px;
+  height: 100%;
+  color: #fff;
+  font-size: 18px;
+  background: #063146;
+  border: 1px solid #16a085;
+  border-radius: 5px 0 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper form .button {
+  text-align: center;
+}
+
+.wrapper form .button input {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 12px 20px;
+  background: #063146;
+  border: 1px solid #16a085;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.wrapper form .button input:hover {
+  background: linear-gradient(135deg, #006838, #96cf24);
+}
+
+/* CSS for gradient text logo */
+.logo-text {
+  font-size: 30px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #006838, #96cf24);
+  -webkit-background-clip: text;
+  -moz-background-clip: text; 
+  -o-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Ensure the text is centered and fits well */
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  background: #063146;
+  border-radius: 5px 5px 0 0;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 600;
+}

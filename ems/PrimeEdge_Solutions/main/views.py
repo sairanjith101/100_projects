@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from .forms import RegistrationForm, LoginForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import LoginForm
 from .models import Employee, Department, Attendance
-from django.contrib.auth.decorators import user_passes_test
 
 
 # Create your views here.
@@ -11,6 +10,7 @@ from django.contrib.auth.decorators import user_passes_test
 def home(request):
     return render(request, 'main/index.html')
 
+@login_required
 def dashboard(request):
     return render(request, 'main/dashboard.html')
 
@@ -27,16 +27,6 @@ def login_view(request):
     else:
         form = LoginForm()
     return render(request, 'main/login.html', {'form': form})
-
-def register_view(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    else:
-        form = RegistrationForm()
-    return render(request, 'main/register.html', {'form': form})
 
 @login_required
 def profile_info(request):
@@ -56,6 +46,7 @@ def leave_apply_page(request):
     return render(request, 'main/leave.html')
 
 @login_required
+@user_passes_test(lambda user: is_manager(user) or is_team_leader(user))
 def head_officers_page(request):
     return render(request, 'main/head_officers.html')
 
@@ -74,3 +65,9 @@ def is_admin(user):
 @user_passes_test(is_admin)
 def admin_view(request):
     return render(request, 'main/admin_view.html')
+
+def is_manager(user):
+    return user.groups.filter(name='Manager').exists()
+
+def is_team_leader(user):
+    return user.groups.filter(name='Team Leader').exists()

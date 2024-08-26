@@ -11,6 +11,7 @@ class Department(models.Model):
         return self.name
 
 class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=50, null=False, blank=False, default='FirstName')
     last_name = models.CharField(max_length=50, null=False, blank=False, default='LastName')
     email = models.EmailField(unique=True, default='default@example.com')
@@ -35,3 +36,6 @@ class Attendance(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     date = models.DateField()
     status = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f'{self.employee} - {self.date}'
