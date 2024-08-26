@@ -7,7 +7,7 @@
     <title>Side Menu Bar</title>
     <link
       rel="stylesheet"
-      href="{% static 'css/sidebar_v1.css' %}"
+      href="{% static 'css/sidebar_v2.css' %}"
       type="text/css"
     />
     <link
@@ -22,7 +22,7 @@
       <i class="fa fa-times" id="cancel"></i>
     </label>
     <div class="sidebar">
-      <header><a class="header-link" href="{% url 'home' %}"><i class="fas fa-laptop-code"></i>Prime</a></header>
+      <header><a class="header-link" href="{% url 'dashboard' %}"><i class="fas fa-laptop-code"></i>Prime</a></header>
       <ul>
         <li><a href="{% url 'dashboard' %}"><i class="fas fa-qrcode"></i>Dashboard</a></li>
         <li><a href="#"><i class="fas fa-user"></i>Profile</a></li>

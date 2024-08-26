@@ -23,7 +23,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect('dashboard')
     else:
         form = LoginForm()
     return render(request, 'main/login.html', {'form': form})

@@ -117,12 +117,10 @@ label #cancel {
 }
 
 section {
-  background: url("/static/image/build2.jpg") no-repeat;
-  background-position: center;
-  background-size: cover;
   height: 100vh;
   transition: all 0.5s;
 }
+
 
 /* Custom scrollbar styling */
 .sidebar::-webkit-scrollbar {

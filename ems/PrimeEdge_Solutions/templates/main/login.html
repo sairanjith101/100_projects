@@ -1,24 +1,23 @@
-{% extends 'main/base.html' %} {% load static %} {% block title %}Prime Edge
-Solutions | Dashboard{% endblock title %} {% block content %}
-<link rel="stylesheet" href="{% static 'css/login_v0.css' %}" type="text/css" />
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Prime Edge Solutions | Login{% endblock title %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login_v1.css' %}" type="text/css" />
 
-<section class="container" style="background: none;">
+<section class="container">
   <div class="wrapper">
-    <div class="title">
-      <div class="logo-text">Login</div></div>
+    <h2>Login</h2>
     <form method="post">
       {% csrf_token %}
-      <div class="row">
-        <i class="fa fa-user"></i> <!-- Font Awesome icon for username -->
-        <input type="text" name="username" placeholder="Username" value="{{ form.username.value|default_if_none:'' }}" />
+      <div class="input-field">
+        <input type="text" name="username" required value="{{ form.username.value|default_if_none:'' }}">
+        <label>Enter your username</label>
       </div>
-      <div class="row">
-        <i class="fa fa-lock"></i> <!-- Font Awesome icon for password -->
-        <input type="password" name="password" placeholder="Password" value="{{ form.password.value|default_if_none:'' }}" />
+      <div class="input-field">
+        <input type="password" name="password" required value="{{ form.password.value|default_if_none:'' }}">
+        <label>Enter your password</label>
       </div>
-      <div class="button">
-        <input type="submit" value="Login"/>
-      </div>
+      <button type="submit">Log In</button>
     </form>
   </div>
 </section>
