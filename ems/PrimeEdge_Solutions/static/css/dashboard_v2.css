@@ -234,7 +234,8 @@ body {
 }
 
 @media (max-width: 768px) {
-  .project-item, .team-item {
+  .project-item,
+  .team-item {
     width: 100%;
   }
 }
@@ -248,7 +249,8 @@ body {
     font-size: 24px;
   }
 
-  .summary-title, .summary-value {
+  .summary-title,
+  .summary-value {
     font-size: 18px;
   }
 }
