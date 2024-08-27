@@ -53,13 +53,14 @@ section {
 .search-table label {
     display: block;
     font-size: 14px;
-    color: #333;
+    /* background-color: #333; */
+    color: white;
     margin-bottom: 5px;
 }
 
 .search-table i {
     margin-right: 8px;
-    color: #006838;
+    color: #fff;
 }
 
 /* Table Styles */
@@ -72,7 +73,7 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 16px;
-    background-color: #fff;
+    background-color: #f7f7f7;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -84,8 +85,9 @@ th, td {
 }
 
 thead {
-    background-color: #f4f4f4;
+    background-color: #343a40;
     border-bottom: 2px solid #ddd;
+    color: #fff;
 }
 
 /* tbody tr:hover {
@@ -127,11 +129,3 @@ h2{
 }
 
 
-/* .search-table thead th {
-    background-color: #006838 !important;
-    color: #fff !important;
-    padding: 10px !important;
-    text-align: left !important;
-    border-bottom: 2px solid #004f2e !important;
-    font-weight: bold !important;
-} */

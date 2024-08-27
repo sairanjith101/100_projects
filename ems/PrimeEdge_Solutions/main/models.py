@@ -32,10 +32,48 @@ class Employee(models.Model):
     class Meta:
         ordering = ['last_name', 'first_name']
 
+
 class Attendance(models.Model):
+    ATTENDANCE_STATUS_CHOICES = [
+        ('Present', 'Present'),
+        ('Absent', 'Absent'),
+        ('Half Day', 'Half Day'),
+        ('On Leave', 'On Leave'),
+    ]
+
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    date = models.DateField()
-    status = models.CharField(max_length=10)
+    date = models.DateField(default=date.today)
+    check_in_time = models.TimeField(null=True, blank=True)
+    check_out_time = models.TimeField(null=True, blank=True)
+    status = models.CharField(max_length=10, choices=ATTENDANCE_STATUS_CHOICES, default='Absent')
 
     def __str__(self):
-        return f'{self.employee} - {self.date}'
+        return f'{self.employee} - {self.date} - {self.status}'
+
+class LeaveRequest(models.Model):
+    LEAVE_TYPE_CHOICES = [
+        ('Sick Leave', 'Sick Leave'),
+        ('Vacation', 'Vacation'),
+        ('Casual Leave', 'Casual Leave'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Approved by TL', 'Approved by TL'),
+        ('Approved by Manager', 'Approved by Manager'),
+        ('Rejected', 'Rejected'),
+    ]
+
+    employee = models.ForeignKey('Employee', on_delete=models.CASCADE)
+    tl = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True, blank=True, related_name='tl_requests')
+    manager = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True, blank=True, related_name='manager_requests')
+    leave_type = models.CharField(max_length=20, choices=LEAVE_TYPE_CHOICES)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    reason = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    applied_on = models.DateTimeField(auto_now_add=True)
+    processed_on = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.employee} - {self.leave_type} - {self.status}'

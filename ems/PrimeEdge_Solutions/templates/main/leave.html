@@ -1,18 +1,92 @@
-{% extends 'main/base.html' %} {% load static %} {% block title %} Prime Edge
-Solutions | Dashboard {% endblock title %} {% block content %}
-<h1>Leave Application</h1>
-<form method="post">
-  {% csrf_token %}
-  <label for="start_date">Start Date:</label>
-  <input type="date" id="start_date" name="start_date" required />
-  <br />
-  <label for="end_date">End Date:</label>
-  <input type="date" id="end_date" name="end_date" required />
-  <br />
-  <label for="reason">Reason:</label>
-  <textarea id="reason" name="reason" required></textarea>
-  <br />
-  <button type="submit">Apply</button>
-</form>
-<a href="{% url 'home' %}">Back to Home</a>
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Leave Management{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/leave.css' %}" type="text/css"/>
+
+<section>
+    <h2>Leave Management</h2>
+
+    {% if is_employee %}
+    <h3>Apply for Leave</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="apply_leave">Apply</button>
+    </form>
+    {% elif is_team_leader or is_manager %}
+    <h3>Leave Requests</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Applied On</th>
+                <th>Processed On</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in leave_requests %}
+            <tr>
+                <td>{{ request.employee }}</td>
+                <td>{{ request.leave_type }}</td>
+                <td>{{ request.start_date }}</td>
+                <td>{{ request.end_date }}</td>
+                <td>{{ request.reason }}</td>
+                <td>{{ request.status }}</td>
+                <td>{{ request.applied_on }}</td>
+                <td>{{ request.processed_on }}</td>
+                <td>
+                    <form method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="leave_request_id" value="{{ request.id }}"/>
+                        {% if is_team_leader or is_manager %}
+                            <button type="submit" name="process_leave" value="approve">Approve</button>
+                            <button type="submit" name="process_leave" value="reject">Reject</button>
+                        {% endif %}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Previous Actions</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Applied On</th>
+                <th>Processed On</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in approved_requests %}
+            <tr>
+                <td>{{ request.employee }}</td>
+                <td>{{ request.leave_type }}</td>
+                <td>{{ request.start_date }}</td>
+                <td>{{ request.end_date }}</td>
+                <td>{{ request.reason }}</td>
+                <td>{{ request.status }}</td>
+                <td>{{ request.applied_on }}</td>
+                <td>{{ request.processed_on }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</section>
 {% endblock content %}

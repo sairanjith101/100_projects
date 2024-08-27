@@ -3,7 +3,7 @@
 {% block title %} Prime Edge Solutions | Employees {% endblock title %}
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'css/employees.css' %}" type="text/css"/>
+<link rel="stylesheet" href="{% static 'css/employees_v1.css' %}" type="text/css"/>
 
 <section>
     <div class="employee-content">
@@ -22,7 +22,7 @@
                         </tr>
                     </thead> -->
                     <tbody>
-                        <tr style="background-color: #f7f7f7;">
+                        <tr style="background-color: #343a40;">
                             <td>
                                 <label for="id-search">
                                     <i class="fas fa-id-badge"></i> ID
@@ -54,7 +54,7 @@
                                 <input type="text" id="position-search" name="position" placeholder="Search by Position" value="{{ request.GET.position }}" />
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="background-color: #f7f7f7;">
                             <td colspan="5">
                                 <button type="submit">Search</button>
                             </td>

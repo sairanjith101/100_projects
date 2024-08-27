@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import LoginForm
-from .models import Employee, Department, Attendance
+from .forms import LoginForm, AttendanceForm, LeaveApprovalForm, LeaveRequestForm
+from .models import Employee, Department, Attendance, LeaveRequest
 from django.db.models import Q
 from django.db import models
+from django.utils import timezone
+from datetime import datetime, timedelta
+import calendar
+from django.contrib import messages
 
 
 
@@ -79,8 +83,68 @@ def help_page(request):
     return render(request, 'main/help.html')
 
 @login_required
-def leave_apply_page(request):
-    return render(request, 'main/leave.html')
+def leave_page(request):
+    user = request.user
+    employee = get_object_or_404(Employee, user=user)
+    
+    # Determine the role based on position
+    position = employee.position.lower()
+    
+    if 'manager' in position:
+        role = 'Manager'
+    elif 'team lead' in position or 'tl' in position:
+        role = 'Team Lead'
+    else:
+        role = 'Employee'
+    
+    if request.method == 'POST':
+        if role == 'Employee' and 'apply_leave' in request.POST:
+            form = LeaveRequestForm(request.POST)
+            if form.is_valid():
+                leave_request = form.save(commit=False)
+                leave_request.employee = employee
+                leave_request.status = 'Pending'
+                leave_request.save()
+                messages.success(request, 'Leave request submitted successfully.')
+                return redirect('leave_page')
+        
+        elif role in ['Team Lead', 'Manager'] and 'process_leave' in request.POST:
+            leave_request_id = request.POST.get('leave_request_id')
+            action = request.POST.get('process_leave')
+            leave_request = get_object_or_404(LeaveRequest, id=leave_request_id)
+            
+            if role == 'Manager' and leave_request.status == 'Approved by TL':
+                leave_request.status = 'Approved by Manager'
+                messages.success(request, 'Leave request approved by Manager.')
+            elif role == 'Team Lead':
+                if action == 'approve':
+                    leave_request.status = 'Approved by TL'
+                    messages.success(request, 'Leave request approved by TL.')
+                elif action == 'reject':
+                    leave_request.status = 'Rejected'
+                    messages.success(request, 'Leave request rejected by TL.')
+            leave_request.processed_on = timezone.now()
+            leave_request.save()
+            return redirect('leave_page')
+
+    else:
+        form = LeaveRequestForm() if role == 'Employee' else LeaveApprovalForm()
+
+    leave_requests = LeaveRequest.objects.filter(employee=employee) if role == 'Employee' else LeaveRequest.objects.filter(status='Pending')
+    approved_requests = LeaveRequest.objects.exclude(status='Pending')
+
+    return render(request, 'main/leave.html', {
+        'form': form,
+        'leave_requests': leave_requests,
+        'approved_requests': approved_requests,
+        'is_employee': role == 'Employee',
+        'is_team_leader': role == 'Team Lead',
+        'is_manager': role == 'Manager',
+    })
+
+
+
+
 
 @login_required
 @user_passes_test(lambda user: is_manager(user) or is_team_leader(user))
@@ -89,8 +153,45 @@ def head_officers_page(request):
 
 @login_required
 def attendance_page(request):
-    attendance_records = Attendance.objects.all()
-    return render(request, 'main/attendance.html', {'attendance_records': attendance_records})
+    try:
+        employee = Employee.objects.get(user=request.user)
+    except Employee.DoesNotExist:
+        employee = None
+
+    today = timezone.now().date()
+    attendance, created = Attendance.objects.get_or_create(employee=employee, date=today)
+
+    if request.method == 'POST':
+        if 'check_in' in request.POST:
+            if attendance.check_in_time is None:
+                attendance.check_in_time = timezone.now().time()
+                attendance.status = 'Present'
+                attendance.save()
+                employee.status = 'Active'
+                employee.save()
+
+        elif 'check_out' in request.POST:
+            if attendance.check_in_time is not None and attendance.check_out_time is None:
+                attendance.check_out_time = timezone.now().time()
+                attendance.status = 'Present' if attendance.check_in_time else 'Absent'
+                attendance.save()
+                employee.status = 'Inactive'
+                employee.save()
+
+        return redirect('attendance')
+
+    # Determine the view type
+    view_type = request.GET.get('view', 'table')
+    
+    # Get all attendance records for the current month
+    attendance_records = Attendance.objects.filter(employee=employee, date__month=today.month).order_by('-date')
+
+    return render(request, 'main/attendance.html', {
+        'employee': employee,
+        'attendance': attendance,
+        'attendance_records': attendance_records,
+        'view_type': view_type,
+    })
 
 def logout_view(request):
     logout(request)

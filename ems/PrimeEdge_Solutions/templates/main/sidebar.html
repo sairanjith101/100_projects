@@ -28,8 +28,8 @@
         <li><a href="{% url 'profile_info' %}"><i class="fas fa-user"></i>Profile</a></li>
         <li><a href="{% url 'employees' %}"><i class="fa fa-search"></i>Employees</a></li>
         <li><a href="#"><i class="fa fa-users"></i>Head Officers</a></li>
-        <li><a href="#"><i class="fas fa-clock"></i>Attendance</a></li>
-        <li><a href="#"><i class="fas fa-calendar-alt"></i>Leave</a></li>
+        <li><a href="{% url 'attendance' %}"><i class="fas fa-clock"></i>Attendance</a></li>
+        <li><a href="{% url 'leave_page' %}"><i class="fas fa-calendar-alt"></i>Leave</a></li>
         <li><a href="#"><i class="fa fa-question-circle"></i>Help</a></li>
         {% if request.user.is_authenticated %}
         <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out-alt"></i>Logout</a></li>
