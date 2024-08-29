@@ -1,9 +1,17 @@
 from django.db import models
 from django.utils import timezone
 from datetime import date
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group, Permission
+from django.contrib.contenttypes.models import ContentType
 
 class Department(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+class Position(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
 
@@ -16,8 +24,8 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=50, null=False, blank=False, default='LastName')
     email = models.EmailField(unique=True, default='default@example.com')
     phone_number = models.CharField(max_length=15, null=False, blank=False)
-    position = models.CharField(max_length=100, null=False, blank=False, default='Unknown Position')
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, related_name='employees')
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, related_name='employees')
     date_of_birth = models.DateField(default=date.today)
     date_of_joining = models.DateField(default=date.today)
     address = models.CharField(max_length=255, default='Unknown Address')
@@ -71,9 +79,28 @@ class LeaveRequest(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     reason = models.TextField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='Pending')
     applied_on = models.DateTimeField(auto_now_add=True)
     processed_on = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f'{self.employee} - {self.leave_type} - {self.status}'
+    
+
+def setup_manager_permissions():
+    # Create a new group for managers if it doesn't exist
+    manager_group, created = Group.objects.get_or_create(name='Managers')
+    
+    # Add all permissions to the manager group
+    content_types = ContentType.objects.all()
+    for content_type in content_types:
+        permissions = Permission.objects.filter(content_type=content_type)
+        manager_group.permissions.add(*permissions)
+
+    # Create or get the manager user
+    manager_user, created = User.objects.get_or_create(username='manager', defaults={
+        'password': 'password',  # Set a default password or generate one
+    })
+    
+    # Add the manager user to the manager group
+    manager_user.groups.add(manager_group)

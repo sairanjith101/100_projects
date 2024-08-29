@@ -1,0 +1,86 @@
+.modal-button {
+  /* Add your desired styling for the button */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.modal-header {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.close-button {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 10px;
+}
+
+.modal-footer {
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  text-align: right;
+}
+
+.save-button {
+  /* Add your desired styling for the save button */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* Show the modal when the button is clicked */
+.modal-button:focus {
+  outline: none;
+}
+
+.modal-button:active {
+  transform: translateY(2px);
+}
+
+.modal-button:hover {
+  background-color: #0069d9;
+}
+
+.close-button:hover {
+  color: red;
+}
+
+.save-button:hover {
+  background-color: #0069d9;
+}

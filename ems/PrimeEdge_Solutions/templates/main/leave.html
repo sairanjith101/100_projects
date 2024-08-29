@@ -1,92 +1,46 @@
 {% extends 'main/base.html' %}
 {% load static %}
-
-{% block title %}Leave Management{% endblock %}
-
+{% block title %} Prime Edge Solutions | Leave Requests {% endblock title %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/leave.css' %}" type="text/css"/>
+<link rel="stylesheet" href="{% static 'css/leave_v0.css' %}" type="text/css" />
 
 <section>
-    <h2>Leave Management</h2>
-
-    {% if is_employee %}
-    <h3>Apply for Leave</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" name="apply_leave">Apply</button>
-    </form>
-    {% elif is_team_leader or is_manager %}
-    <h3>Leave Requests</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Employee</th>
-                <th>Leave Type</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th>Applied On</th>
-                <th>Processed On</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for request in leave_requests %}
-            <tr>
-                <td>{{ request.employee }}</td>
-                <td>{{ request.leave_type }}</td>
-                <td>{{ request.start_date }}</td>
-                <td>{{ request.end_date }}</td>
-                <td>{{ request.reason }}</td>
-                <td>{{ request.status }}</td>
-                <td>{{ request.applied_on }}</td>
-                <td>{{ request.processed_on }}</td>
-                <td>
-                    <form method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <input type="hidden" name="leave_request_id" value="{{ request.id }}"/>
-                        {% if is_team_leader or is_manager %}
-                            <button type="submit" name="process_leave" value="approve">Approve</button>
-                            <button type="submit" name="process_leave" value="reject">Reject</button>
-                        {% endif %}
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <h3>Previous Actions</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Employee</th>
-                <th>Leave Type</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th>Applied On</th>
-                <th>Processed On</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for request in approved_requests %}
-            <tr>
-                <td>{{ request.employee }}</td>
-                <td>{{ request.leave_type }}</td>
-                <td>{{ request.start_date }}</td>
-                <td>{{ request.end_date }}</td>
-                <td>{{ request.reason }}</td>
-                <td>{{ request.status }}</td>
-                <td>{{ request.applied_on }}</td>
-                <td>{{ request.processed_on }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
+    <div class="container">
+        <h2>Submit Leave Request</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </form>
+        
+        <h2>My Leave Requests</h2>
+        {% if leave_requests %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Leave Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Applied On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in leave_requests %}
+                <tr>
+                    <td>{{ request.leave_type }}</td>
+                    <td>{{ request.start_date }}</td>
+                    <td>{{ request.end_date }}</td>
+                    <td>{{ request.status }}</td>
+                    <td>{{ request.applied_on }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No leave requests found.</p>
+        {% endif %}
+    </div>
 </section>
+
 {% endblock content %}

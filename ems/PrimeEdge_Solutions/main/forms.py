@@ -21,4 +21,10 @@ class LeaveRequestForm(forms.ModelForm):
         }
 
 class LeaveApprovalForm(forms.Form):
-    action = forms.ChoiceField(choices=[('approve', 'Approve'), ('reject', 'Reject')])
+    ACTION_CHOICES = [
+        ('approve', 'Approve'),
+        ('reject', 'Reject'),
+    ]
+    leave_request_id = forms.IntegerField(widget=forms.HiddenInput())
+    action = forms.ChoiceField(choices=ACTION_CHOICES)
+    reason = forms.CharField(widget=forms.Textarea, required=False)

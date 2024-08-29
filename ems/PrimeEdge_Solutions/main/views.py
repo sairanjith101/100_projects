@@ -53,12 +53,13 @@ def employees_page(request):
     email_query = request.GET.get('email', '')
     phone_query = request.GET.get('phone', '')
     position_query = request.GET.get('position', '')
+    department_query = request.GET.get('department', '')
 
     # Initialize employees variable
     employees = None
     
     # If there is any search criteria, filter the employees
-    if id_query or name_query or email_query or phone_query or position_query:
+    if id_query or name_query or email_query or phone_query or position_query or department_query:
         employees = Employee.objects.all()
         
         if id_query:
@@ -73,7 +74,9 @@ def employees_page(request):
         if phone_query:
             employees = employees.filter(phone_number__icontains=phone_query)
         if position_query:
-            employees = employees.filter(position__icontains=position_query)
+            employees = employees.filter(position__name__icontains=position_query)
+        if department_query:
+            employees = employees.filter(department__name__icontains=department_query)
 
     return render(request, 'main/employees.html', {'employees': employees})
 
@@ -83,73 +86,94 @@ def help_page(request):
     return render(request, 'main/help.html')
 
 @login_required
-def leave_page(request):
-    user = request.user
-    employee = get_object_or_404(Employee, user=user)
-    
-    # Determine the role based on position
-    position = employee.position.lower()
-    
-    if 'manager' in position:
-        role = 'Manager'
-    elif 'team lead' in position or 'tl' in position:
-        role = 'Team Lead'
-    else:
-        role = 'Employee'
-    
+def leave_request(request):
     if request.method == 'POST':
-        if role == 'Employee' and 'apply_leave' in request.POST:
-            form = LeaveRequestForm(request.POST)
-            if form.is_valid():
-                leave_request = form.save(commit=False)
-                leave_request.employee = employee
-                leave_request.status = 'Pending'
-                leave_request.save()
-                messages.success(request, 'Leave request submitted successfully.')
-                return redirect('leave_page')
-        
-        elif role in ['Team Lead', 'Manager'] and 'process_leave' in request.POST:
-            leave_request_id = request.POST.get('leave_request_id')
-            action = request.POST.get('process_leave')
-            leave_request = get_object_or_404(LeaveRequest, id=leave_request_id)
+        form = LeaveRequestForm(request.POST)
+        if form.is_valid():
+            leave_request = form.save(commit=False)
             
-            if role == 'Manager' and leave_request.status == 'Approved by TL':
-                leave_request.status = 'Approved by Manager'
-                messages.success(request, 'Leave request approved by Manager.')
-            elif role == 'Team Lead':
-                if action == 'approve':
-                    leave_request.status = 'Approved by TL'
-                    messages.success(request, 'Leave request approved by TL.')
-                elif action == 'reject':
-                    leave_request.status = 'Rejected'
-                    messages.success(request, 'Leave request rejected by TL.')
-            leave_request.processed_on = timezone.now()
-            leave_request.save()
-            return redirect('leave_page')
-
+            # Get the employee submitting the request
+            employee = Employee.objects.get(user=request.user)
+            
+            # Find the team lead for the employee's department
+            team_lead = Employee.objects.filter(position__name='Team Lead', department=employee.department).first()
+            
+            if team_lead:
+                leave_request.employee = employee
+                leave_request.tl = team_lead  # Assign the Team Lead to the request
+                leave_request.save()
+                return redirect('leave_page')  # Redirect after submission
+            else:
+                # Handle case where no Team Lead is found for the department
+                return render(request, 'main/leave.html', {
+                    'form': form,
+                    'error': 'No Team Lead assigned to your department. Please contact HR.',
+                })
     else:
-        form = LeaveRequestForm() if role == 'Employee' else LeaveApprovalForm()
+        form = LeaveRequestForm()
 
-    leave_requests = LeaveRequest.objects.filter(employee=employee) if role == 'Employee' else LeaveRequest.objects.filter(status='Pending')
-    approved_requests = LeaveRequest.objects.exclude(status='Pending')
+    # Fetch the leave requests of the logged-in employee
+    employee = Employee.objects.get(user=request.user)
+    leave_requests = LeaveRequest.objects.filter(employee=employee).order_by('-applied_on')
 
     return render(request, 'main/leave.html', {
         'form': form,
         'leave_requests': leave_requests,
-        'approved_requests': approved_requests,
-        'is_employee': role == 'Employee',
-        'is_team_leader': role == 'Team Lead',
-        'is_manager': role == 'Manager',
     })
 
-
-
-
-
 @login_required
-@user_passes_test(lambda user: is_manager(user) or is_team_leader(user))
-def head_officers_page(request):
-    return render(request, 'main/head_officers.html')
+def head_officers(request):
+    user = request.user
+    employee = get_object_or_404(Employee, user=user)
+
+    # Check if the employee's position is either TL or Manager
+    if employee.position.name not in ['Team Lead', 'Manager']:
+        return render(request, 'no_access.html', {
+            'message': 'You do not have permission to view this page.'
+        })
+
+    # Filter leave requests based on position
+    if employee.position.name == 'Team Lead':
+        leave_requests = LeaveRequest.objects.filter(
+            status='Pending',
+            tl=employee
+        )
+    elif employee.position.name == 'Manager':
+        leave_requests = LeaveRequest.objects.filter(
+            status='Pending',
+            manager=None
+        )
+
+    if request.method == 'POST':
+        form = LeaveApprovalForm(request.POST)
+        leave_request_id = request.POST.get('leave_request_id')
+        leave_request = get_object_or_404(LeaveRequest, id=leave_request_id)
+
+        if form.is_valid():
+            action = form.cleaned_data['action']
+            if action == 'approve':
+                if employee.position.name == 'Team Lead':
+                    leave_request.status = 'Approved by Team Lead'
+                    leave_request.manager = None  # Ensure the manager is not set
+                elif employee.position.name == 'Manager':
+                    leave_request.status = 'Approved by Manager'
+            elif action == 'reject':
+                leave_request.status = 'Rejected'
+            leave_request.processed_on = timezone.now()
+            leave_request.save()
+
+            # Notify the requester
+            messages.success(request, 'Leave request updated successfully!')
+            return redirect('head_officers')
+
+    else:
+        form = LeaveApprovalForm()
+
+    return render(request, 'main/head_officers.html', {
+        'leave_requests': leave_requests,
+        'form': form,
+    })
+
 
 @login_required
 def attendance_page(request):
@@ -164,7 +188,7 @@ def attendance_page(request):
     if request.method == 'POST':
         if 'check_in' in request.POST:
             if attendance.check_in_time is None:
-                attendance.check_in_time = timezone.now().time()
+                attendance.check_in_time = timezone.localtime().time()
                 attendance.status = 'Present'
                 attendance.save()
                 employee.status = 'Active'
@@ -172,7 +196,7 @@ def attendance_page(request):
 
         elif 'check_out' in request.POST:
             if attendance.check_in_time is not None and attendance.check_out_time is None:
-                attendance.check_out_time = timezone.now().time()
+                attendance.check_out_time = timezone.localtime().time()
                 attendance.status = 'Present' if attendance.check_in_time else 'Absent'
                 attendance.save()
                 employee.status = 'Inactive'
