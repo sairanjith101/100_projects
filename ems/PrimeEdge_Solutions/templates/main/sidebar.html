@@ -24,18 +24,20 @@
     <div class="sidebar">
       <header><a class="header-link" href="{% url 'dashboard' %}"><i class="fas fa-laptop-code"></i>Prime</a></header>
       <ul>
+        {% if request.user.is_authenticated %}
         <li><a href="{% url 'dashboard' %}"><i class="fas fa-qrcode"></i>Dashboard</a></li>
         <li><a href="{% url 'profile_info' %}"><i class="fas fa-user"></i>Profile</a></li>
         <li><a href="{% url 'employees' %}"><i class="fa fa-search"></i>Employees</a></li>
         <li><a href="{% url 'head_officers' %}"><i class="fa fa-users"></i>Head Officers</a></li>
         <li><a href="{% url 'attendance' %}"><i class="fas fa-clock"></i>Attendance</a></li>
+        {% if request.user.employee.position.name != 'Manager' %}
         <li><a href="{% url 'leave_page' %}"><i class="fas fa-calendar-alt"></i>Leave</a></li>
+        {% endif %}
         <li><a href="{% url 'help' %}"><i class="fa fa-question-circle"></i>Help</a></li>
-        {% if request.user.is_authenticated %}
         <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out-alt"></i>Logout</a></li>
         {% else %}
         <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i>Login</a></li>
-        {% endif %} 
+        {% endif %}
       </ul>
     </div>
     <section></section>

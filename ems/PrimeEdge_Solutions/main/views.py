@@ -17,6 +17,12 @@ from django.contrib import messages
 def home(request):
     return render(request, 'main/index.html')
 
+def redirect_to_dashboard(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    else:
+        return redirect('login')
+
 @login_required
 def dashboard(request):
     return render(request, 'main/dashboard.html')
@@ -221,15 +227,15 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-def is_admin(user):
-    return user.is_superuser
+# def is_admin(user):
+#     return user.is_superuser
 
-@user_passes_test(is_admin)
-def admin_view(request):
-    return render(request, 'main/admin_view.html')
+# @user_passes_test(is_admin)
+# def admin_view(request):
+#     return render(request, 'main/admin_view.html')
 
-def is_manager(user):
-    return user.groups.filter(name='Manager').exists()
+# def is_manager(user):
+#     return user.groups.filter(name='Manager').exists()
 
-def is_team_leader(user):
-    return user.groups.filter(name='Team Leader').exists()
+# def is_team_leader(user):
+#     return user.groups.filter(name='Team Leader').exists()
