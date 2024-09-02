@@ -1,20 +1,72 @@
-<!-- modal.html -->
-<!-- Modal Structure -->
-<div id="commonModal" class="modal">
-    <div class="modal-dialog">
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Modal</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'css/modal_v0.css' %}"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <!-- Button to trigger the modal -->
+    <!-- <button id="openModal" class="custom-btn primary">Launch demo modal</button> -->
+
+    <!-- Modal Structure -->
+    <div id="customModal" class="modal">
+      <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle">Modal Title</h5>
-                <button type="button" class="close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <!-- Content will be dynamically set by JavaScript -->
-                <p id="modalBody">Modal body content goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
-                <button type="button" class="btn btn-primary" id="modalConfirmButton">Confirm</button>
-            </div>
+          <div class="modal-header">
+            <h1 class="modal-title">Modal title</h1>
+            <span class="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <button class="custom-btn secondary close-btn">Close</button>
+          </div>
+          <!-- <div class="modal-footer">
+            <button class="custom-btn secondary close-btn">Close</button>
+            <button class="custom-btn primary">Save changes</button>
+          </div> -->
         </div>
+      </div>
     </div>
-</div>
+
+    <!-- <script>
+      // Get the modal
+      var modal = document.getElementById("customModal");
+
+      // Get the button that opens the modal
+      var btn = document.getElementById("openModal");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // Get the close button in the footer
+      var closeBtn = document.querySelector(".close-btn");
+
+      // When the user clicks on the button, open the modal
+      btn.onclick = function () {
+        modal.style.display = "flex";
+      };
+
+      // When the user clicks on <span> (x) or the close button, close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script> -->
+  </body>
+</html>

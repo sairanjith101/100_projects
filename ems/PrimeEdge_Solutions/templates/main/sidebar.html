@@ -28,7 +28,9 @@
         <li><a href="{% url 'dashboard' %}"><i class="fas fa-qrcode"></i>Dashboard</a></li>
         <li><a href="{% url 'profile_info' %}"><i class="fas fa-user"></i>Profile</a></li>
         <li><a href="{% url 'employees' %}"><i class="fa fa-search"></i>Employees</a></li>
+         {% if request.user.employee.position.name == 'Manager' or request.user.employee.position.name == 'Team Lead' %}
         <li><a href="{% url 'head_officers' %}"><i class="fa fa-users"></i>Head Officers</a></li>
+        {% endif %}
         <li><a href="{% url 'attendance' %}"><i class="fas fa-clock"></i>Attendance</a></li>
         {% if request.user.employee.position.name != 'Manager' %}
         <li><a href="{% url 'leave_page' %}"><i class="fas fa-calendar-alt"></i>Leave</a></li>
