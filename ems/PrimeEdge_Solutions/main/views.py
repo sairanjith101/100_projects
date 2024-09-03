@@ -9,6 +9,7 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 import calendar
 from django.contrib import messages
+from django.http import JsonResponse
 
 
 
@@ -36,7 +37,11 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                messages.success(request,"Logged in Successfully")
                 return redirect('dashboard')
+            else:
+                messages.error(request,"Invalid User Name and Password")
+                return redirect("login")
     else:
         form = LoginForm()
     return render(request, 'main/login.html', {'form': form})
@@ -83,6 +88,9 @@ def employees_page(request):
             employees = employees.filter(position__name__icontains=position_query)
         if department_query:
             employees = employees.filter(department__name__icontains=department_query)
+
+        if not employees.exists():
+            messages.warning(request, "No employees found with the given search criteria.")
 
     return render(request, 'main/employees.html', {'employees': employees})
 
@@ -199,6 +207,7 @@ def attendance_page(request):
                 attendance.save()
                 employee.status = 'Active'
                 employee.save()
+                messages.success(request, 'You have successfully checked in.')
 
         elif 'check_out' in request.POST:
             if attendance.check_in_time is not None and attendance.check_out_time is None:
@@ -207,6 +216,7 @@ def attendance_page(request):
                 attendance.save()
                 employee.status = 'Inactive'
                 employee.save()
+                messages.success(request, 'You have successfully checked out.')
 
         return redirect('attendance')
 
@@ -224,7 +234,9 @@ def attendance_page(request):
     })
 
 def logout_view(request):
-    logout(request)
+    if request.user.is_authenticated:
+        logout(request)
+        messages.success(request,"Logged out Successfully")
     return redirect('login')
 
 # def is_admin(user):
