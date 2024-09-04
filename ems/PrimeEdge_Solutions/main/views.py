@@ -116,12 +116,12 @@ def leave_request(request):
                 leave_request.employee = employee
                 leave_request.tl = team_lead  # Assign the Team Lead to the request
                 leave_request.save()
+                messages.success(request, 'Leave request submitted successfully. Please wait for approval.')
                 return redirect('leave_page')  # Redirect after submission
             else:
-                # Handle case where no Team Lead is found for the department
+                messages.error(request, 'No Team Lead assigned to your department. Please contact HR.')
                 return render(request, 'main/leave.html', {
                     'form': form,
-                    'error': 'No Team Lead assigned to your department. Please contact HR.',
                 })
     else:
         form = LeaveRequestForm()
