@@ -28,7 +28,8 @@ def redirect_to_dashboard(request):
 @login_required
 def dashboard(request):
     today = timezone.now().date()
-    
+    one_month_later = today + timedelta(days=30)
+
     # Total count of employees
     total_employees = Employee.objects.count()
     
@@ -38,6 +39,16 @@ def dashboard(request):
     
     # Employees who have not checked in today
     not_checked_in_count = Employee.objects.exclude(id__in=checked_in_employee_ids).count()
+
+    # Calculate upcoming birthdays within the next 30 days
+    upcoming_birthdays = Employee.objects.filter(
+        date_of_birth__month=today.month,
+        date_of_birth__day__gte=today.day,
+    ) | Employee.objects.filter(
+        date_of_birth__month=one_month_later.month,
+        date_of_birth__day__lte=one_month_later.day,
+    )
+    upcoming_birthdays = upcoming_birthdays.order_by('date_of_birth')[:5]
     
     context = {
         'total_employees': total_employees,

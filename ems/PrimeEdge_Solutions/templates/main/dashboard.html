@@ -195,6 +195,24 @@ Solutions | Dashboard {% endblock title %} {% block content %}
         </div>
       </div>
     </div>
+
+    <!-- Upcoming Birthdays Section -->
+    <div class="dashboard-section upcoming-birthdays">
+      <h2 class="section-title">Upcoming Birthdays</h2>
+      <div class="birthdays-list">
+        {% if upcoming_birthdays %}
+          <ul class="list-group">
+            {% for employee in upcoming_birthdays %}
+              <li class="list-group-item">
+                {{ employee.first_name }} {{ employee.last_name }} - {{ employee.date_of_birth|date:"F j" }}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No upcoming birthdays in the next 30 days.</p>
+        {% endif %}
+      </div>
+    </div>
   </div>
 </section>
 {% endblock content %}
