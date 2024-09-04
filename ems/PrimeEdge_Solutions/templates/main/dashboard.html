@@ -140,15 +140,15 @@ Solutions | Dashboard {% endblock title %} {% block content %}
       <div class="employee-summary">
         <div class="summary-item">
           <h3 class="summary-title">Total Count</h3>
-          <p class="summary-value">1,200</p>
+          <p class="summary-value">{{ total_employees }}</p>
         </div>
         <div class="summary-item">
           <h3 class="summary-title">Active Employees</h3>
-          <p class="summary-value">1,000</p>
+          <p class="summary-value">{{ checked_in_count }}</p>
         </div>
         <div class="summary-item">
           <h3 class="summary-title">Inactive Employees</h3>
-          <p class="summary-value">200</p>
+          <p class="summary-value">{{ not_checked_in_count }}</p>
         </div>
       </div>
       <div class="employee-stats">

@@ -23,10 +23,29 @@ def redirect_to_dashboard(request):
         return redirect('dashboard')
     else:
         return redirect('login')
+    
 
 @login_required
 def dashboard(request):
-    return render(request, 'main/dashboard.html')
+    today = timezone.now().date()
+    
+    # Total count of employees
+    total_employees = Employee.objects.count()
+    
+    # Employees who have checked in today
+    checked_in_employee_ids = Attendance.objects.filter(date=today).values_list('employee_id', flat=True).distinct()
+    checked_in_count = Employee.objects.filter(id__in=checked_in_employee_ids).count()
+    
+    # Employees who have not checked in today
+    not_checked_in_count = Employee.objects.exclude(id__in=checked_in_employee_ids).count()
+    
+    context = {
+        'total_employees': total_employees,
+        'checked_in_count': checked_in_count,
+        'not_checked_in_count': not_checked_in_count,
+    }
+
+    return render(request, 'main/dashboard.html', context)
 
 def login_view(request):
     if request.method == 'POST':
@@ -238,7 +257,18 @@ def attendance_page(request):
         elif 'check_out' in request.POST:
             if attendance.check_in_time is not None and attendance.check_out_time is None:
                 attendance.check_out_time = timezone.localtime().time()
-                attendance.status = 'Present' if attendance.check_in_time else 'Absent'
+
+                # Calculate the duration of work
+                check_in_datetime = datetime.combine(today, attendance.check_in_time)
+                check_out_datetime = datetime.combine(today, attendance.check_out_time)
+                duration = check_out_datetime - check_in_datetime
+
+                # Check if the duration is at least 6 hours
+                if duration >= timedelta(hours=6):
+                    attendance.status = 'Present'
+                else:
+                    attendance.status = 'Absent'
+
                 attendance.save()
                 employee.status = 'Inactive'
                 employee.save()
@@ -251,6 +281,20 @@ def attendance_page(request):
     
     # Get all attendance records for the current month
     attendance_records = Attendance.objects.filter(employee=employee, date__month=today.month).order_by('-date')
+
+    # End-of-day check if the employee hasn't checked out
+    if attendance.check_out_time is None and attendance.check_in_time is not None:
+        check_in_datetime = datetime.combine(today, attendance.check_in_time)
+        now = timezone.localtime().time()
+        duration = datetime.combine(today, now) - check_in_datetime
+
+        if duration >= timedelta(hours=6):
+            attendance.status = 'Absent'
+            messages.warning(request, 'You forgot to check out. Your status has been marked as absent.')
+        else:
+            attendance.status = 'Absent'
+
+        attendance.save()
 
     return render(request, 'main/attendance.html', {
         'employee': employee,
