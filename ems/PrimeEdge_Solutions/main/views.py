@@ -108,6 +108,19 @@ def leave_request(request):
             
             # Get the employee submitting the request
             employee = Employee.objects.get(user=request.user)
+
+            if LeaveRequest.objects.filter(
+                employee=employee, 
+                start_date__lte=leave_request.end_date, 
+                end_date__gte=leave_request.start_date
+            ).exists():
+                messages.error(request, 'A leave request for the selected date range already exists.')
+                # Don't redirect; simply re-render the form with the error message
+                leave_requests = LeaveRequest.objects.filter(employee=employee).order_by('-applied_on')
+                return render(request, 'main/leave.html', {
+                    'form': form,
+                    'leave_requests': leave_requests,
+                })
             
             # Find the team lead for the employee's department
             team_lead = Employee.objects.filter(position__name='Team Lead', department=employee.department).first()
