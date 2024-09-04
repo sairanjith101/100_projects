@@ -182,6 +182,19 @@ def head_officers(request):
 
     else:
         form = LeaveApprovalForm()
+    
+    if employee.position.name == 'Team Lead':
+        # Team Leads should only see leave requests assigned to them but not their own
+        leave_requests = LeaveRequest.objects.filter(
+            status='Pending',
+            tl=employee
+        ).exclude(employee=employee)  # Exclude requests submitted by the current Team Lead
+    elif employee.position.name == 'Manager':
+        # Managers should see all pending leave requests assigned to them
+        leave_requests = LeaveRequest.objects.filter(
+            status='Pending',
+            manager=None  # Only see requests where no manager has been assigned
+        )
 
     return render(request, 'main/head_officers.html', {
         'leave_requests': leave_requests,
