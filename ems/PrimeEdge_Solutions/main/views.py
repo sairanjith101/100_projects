@@ -49,11 +49,36 @@ def dashboard(request):
         date_of_birth__day__lte=one_month_later.day,
     )
     upcoming_birthdays = upcoming_birthdays.order_by('date_of_birth')[:5]
+
+    recent_hires = Employee.objects.order_by('-date_of_joining')[:3]
+
+    for hire in recent_hires:
+        hire.days_since_joined = (today - hire.date_of_joining).days
+    
+    # Fetch all departments excluding "Prime"
+    departments = Department.objects.exclude(name='Prime')
+    department_data = []
+
+    for department in departments:
+        # Find the team lead
+        team_lead = Employee.objects.filter(department=department, position__name='Team Lead').first()
+        team_lead_name = f'{team_lead.first_name} {team_lead.last_name}' if team_lead else 'N/A'
+        team_lead_photo = team_lead.profile_picture.url if team_lead and team_lead.profile_picture else None
+
+        department_data.append({
+            'department_name': department.name,
+            'team_lead_name': team_lead_name,
+            'team_lead_photo': team_lead_photo,
+            'members_count': department.employees.count(),
+        })
     
     context = {
         'total_employees': total_employees,
         'checked_in_count': checked_in_count,
         'not_checked_in_count': not_checked_in_count,
+        'upcoming_birthdays': upcoming_birthdays,
+        'recent_hires': recent_hires,
+        'department_data': department_data,
     }
 
     return render(request, 'main/dashboard.html', context)

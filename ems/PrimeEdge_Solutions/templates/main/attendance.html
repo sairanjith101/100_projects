@@ -123,26 +123,31 @@
           title: '{{ record.status|escapejs }}',
           start: '{{ record.date|date:"Y-m-d" }}',
           end: '{{ record.date|date:"Y-m-d" }}',
-          color: '{{ record.status|escapejs }}'
+          backgroundColor: getStatusColor('{{ record.status|escapejs }}'),
+          borderColor: getStatusColor('{{ record.status|escapejs }}'),
+          textColor: '#ffffff'
         }{% if not forloop.last %},{% endif %}
         {% endfor %}
       ],
       height: 'auto'
     });
 
-    calendar.on('eventDidMount', function(info) {
-      if (info.event._def.extendedProps.color === 'Present') {
-        info.el.style.backgroundColor = '#28a745';
-      } else if (info.event._def.extendedProps.color === 'Absent') {
-        info.el.style.backgroundColor = '#dc3545';
-      } else if (info.event._def.extendedProps.color === 'Half Day') {
-        info.el.style.backgroundColor = '#ffc107';
-      } else if (info.event._def.extendedProps.color === 'On Leave') {
-        info.el.style.backgroundColor = '#17a2b8';
-      }
-    });
-
     calendar.render();
+
+    function getStatusColor(status) {
+      switch (status) {
+        case 'Present':
+          return '#28a745'; // Green
+        case 'Absent':
+          return '#dc3545'; // Red
+        case 'Half Day':
+          return '#ffc107'; // Yellow
+        case 'On Leave':
+          return '#17a2b8'; // Blue
+        default:
+          return '#6c757d'; // Grey
+      }
+    }
   });
 </script>
 {% endblock %}
