@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %} {% load static %} {% block title %} Prime Edge
 Solutions | Dashboard {% endblock title %} {% block content %}
-<link rel="stylesheet" href="{% static 'css/profile.css' %}" type="text/css" />
+<link rel="stylesheet" href="{% static 'css/profile_v4.css' %}" type="text/css" />
 
 <section>
   <div class="profile-container">
@@ -26,7 +26,12 @@ Solutions | Dashboard {% endblock title %} {% block content %}
         <p><strong>Address:</strong> {{ employee.address }}</p>
         <p><strong>Salary:</strong> ₹{{ employee.salary }}</p>
         <p><strong>Employee ID:</strong> {{ employee.employee_id }}</p>
-        <p><strong>Status:</strong> {{ employee.get_status_display }}</p>
+        <p>
+          <strong>Status:</strong> 
+          <span class="{% if status == 'Active' %}status-active{% elif status == 'On Leave' %}status-on-leave{% else %}status-inactive{% endif %}">
+            {{ status }}
+          </span>
+        </p>
       </div>
     </div>
     {% else %}

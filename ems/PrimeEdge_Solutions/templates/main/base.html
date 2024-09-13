@@ -7,7 +7,9 @@
     <title>{% block title %} {% endblock title %}</title>
   </head>
   <body>
-    {% include 'main/sidebar.html' %}
+    {% block sidebar %}
+      {% include 'main/sidebar.html' %}
+    {% endblock sidebar %}
     {% block content %} {% endblock content %}
   </body>
 </html>

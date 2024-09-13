@@ -6,7 +6,7 @@ from .models import Employee, Department, Attendance, LeaveRequest
 from django.db.models import Q
 from django.db import models
 from django.utils import timezone
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import calendar
 from django.contrib import messages
 from django.http import JsonResponse
@@ -33,22 +33,40 @@ def dashboard(request):
     # Total count of employees
     total_employees = Employee.objects.count()
     
-    # Employees who have checked in today
-    checked_in_employee_ids = Attendance.objects.filter(date=today).values_list('employee_id', flat=True).distinct()
+    # Employees who have checked in today (check_in_time is not None)
+    checked_in_employee_ids = Attendance.objects.filter(
+        date=today, check_in_time__isnull=False
+    ).values_list('employee_id', flat=True).distinct()
     checked_in_count = Employee.objects.filter(id__in=checked_in_employee_ids).count()
-    
-    # Employees who have not checked in today
-    not_checked_in_count = Employee.objects.exclude(id__in=checked_in_employee_ids).count()
 
-    # Calculate upcoming birthdays within the next 30 days
+    # Employees who have checked out today (check_out_time is not None)
+    checked_out_employee_ids = Attendance.objects.filter(
+        date=today, check_out_time__isnull=False
+    ).values_list('employee_id', flat=True).distinct()
+    checked_out_count = Employee.objects.filter(id__in=checked_out_employee_ids).count()
+
+    # Not checked-in employees
+    not_checked_in_count = total_employees - checked_in_count
+
+    # Correct logic for check-out employees
+    # Check-Out Employees = Employees who haven't checked in + Employees who have checked out
+    total_checked_out_count = not_checked_in_count + checked_out_count
+
+    # Active employees: those who have checked in today and not checked out
+    active_employee_ids = Attendance.objects.filter(
+        date=today, check_in_time__isnull=False
+    ).values_list('employee_id', flat=True).distinct()
+    # To find those who have not checked out
+    active_employee_ids = Attendance.objects.filter(
+        date=today, employee_id__in=active_employee_ids, check_out_time__isnull=True
+    ).values_list('employee_id', flat=True).distinct()
+    active_count = Employee.objects.filter(id__in=active_employee_ids).count()
+
+    # Upcoming birthdays within the next 30 days
     upcoming_birthdays = Employee.objects.filter(
-        date_of_birth__month=today.month,
-        date_of_birth__day__gte=today.day,
-    ) | Employee.objects.filter(
-        date_of_birth__month=one_month_later.month,
-        date_of_birth__day__lte=one_month_later.day,
-    )
-    upcoming_birthdays = upcoming_birthdays.order_by('date_of_birth')[:5]
+        Q(date_of_birth__month=today.month, date_of_birth__day__gte=today.day) |
+        Q(date_of_birth__month=one_month_later.month, date_of_birth__day__lte=one_month_later.day)
+    ).order_by('date_of_birth')[:5]
 
     recent_hires = Employee.objects.order_by('-date_of_joining')[:3]
 
@@ -71,14 +89,24 @@ def dashboard(request):
             'team_lead_photo': team_lead_photo,
             'members_count': department.employees.count(),
         })
+
+    # Check for leave requests
+    leave_requests = LeaveRequest.objects.filter(
+        employee__in=Employee.objects.all(),
+        start_date__lte=today,
+        end_date__gte=today,
+        status__in=['Approved by Team Lead', 'Approved by Manager']
+    ).order_by('-applied_on')[:5]
     
     context = {
         'total_employees': total_employees,
-        'checked_in_count': checked_in_count,
+        'active_count': active_count,
+        'inactive_count': total_checked_out_count,
         'not_checked_in_count': not_checked_in_count,
         'upcoming_birthdays': upcoming_birthdays,
         'recent_hires': recent_hires,
         'department_data': department_data,
+        'leave_requests': leave_requests,
     }
 
     return render(request, 'main/dashboard.html', context)
@@ -104,12 +132,59 @@ def login_view(request):
 @login_required
 def profile_info(request):
     try:
-        # Get the employee profile associated with the logged-in user
         employee = Employee.objects.get(user=request.user)
     except Employee.DoesNotExist:
-        # Handle the case where the employee profile does not exist
         employee = None
-    return render(request, 'main/profile.html', {'employee':employee})
+
+    status = "Inactive"  # Default to Inactive
+
+    if employee:
+        today = timezone.now().date()
+
+        # Check if today is a government holiday or weekend
+        is_government_holiday = today in GOVERNMENT_HOLIDAYS
+        weekday = today.weekday()
+        is_weekend = weekday == 5 or weekday == 6
+
+        # Check if the employee is on approved leave today
+        is_on_leave = LeaveRequest.objects.filter(
+            employee=employee,
+            start_date__lte=today,
+            end_date__gte=today,
+            status__in=['Approved by Team Lead', 'Approved by Manager']
+        ).exists()
+
+        # Fetch today's attendance record
+        try:
+            attendance = Attendance.objects.get(employee=employee, date=today)
+            
+            if is_government_holiday or is_weekend or is_on_leave:
+                status = "On Leave"
+                attendance.status = 'On Leave'
+                attendance.check_in_time = None
+                attendance.check_out_time = None
+                attendance.save()
+            else:
+                if attendance.check_in_time and not attendance.check_out_time:
+                    status = "Active"  # Checked in but not checked out
+                elif attendance.check_out_time:
+                    status = "Inactive"  # Checked out
+                else:
+                    status = "Not Checked In"
+
+        except Attendance.DoesNotExist:
+            if is_government_holiday or is_weekend or is_on_leave:
+                status = "On Leave"
+            else:
+                status = "Not Checked In"  # No attendance record for today
+
+    context = {
+        'employee': employee,
+        'status': status,
+    }
+
+    return render(request, 'main/profile.html', context)
+
 
 @login_required
 def employees_page(request):
@@ -131,10 +206,21 @@ def employees_page(request):
         if id_query:
             employees = employees.filter(employee_id__icontains=id_query)
         if name_query:
-            employees = employees.filter(
-                Q(first_name__icontains=name_query) |
-                Q(last_name__icontains=name_query)
-            )
+            # Split the name_query by spaces
+            name_parts = name_query.split()
+            
+            if len(name_parts) == 1:
+                # Search by either first name or last name if only one part is given
+                employees = employees.filter(
+                    Q(first_name__icontains=name_query) |
+                    Q(last_name__icontains=name_query)
+                )
+            else:
+                # Search for full name (both first and last name)
+                employees = employees.filter(
+                    Q(first_name__icontains=name_parts[0]) &
+                    Q(last_name__icontains=name_parts[1])
+                )
         if email_query:
             employees = employees.filter(email__icontains=email_query)
         if phone_query:
@@ -239,14 +325,33 @@ def head_officers(request):
                     leave_request.manager = None  # Ensure the manager is not set
                 elif employee.position.name == 'Manager':
                     leave_request.status = 'Approved by Manager'
+                leave_request.processed_on = timezone.now()
+                leave_request.save()
+
+                # Add the logic to create or update attendance records
+                start_date = leave_request.start_date
+                end_date = leave_request.end_date
+                for single_date in (start_date + timedelta(n) for n in range(0, (end_date - start_date).days + 1)):
+                    Attendance.objects.update_or_create(
+                        employee=leave_request.employee,
+                        date=single_date,
+                        defaults={
+                            'status': 'On Leave',
+                            'check_in_time': None,
+                            'check_out_time': None,
+                        }
+                    )
+                
+                # Notify the requester
+                messages.success(request, 'Leave request updated successfully!')
+                return redirect('head_officers')
+            
             elif action == 'reject':
                 leave_request.status = 'Rejected'
-            leave_request.processed_on = timezone.now()
-            leave_request.save()
-
-            # Notify the requester
-            messages.success(request, 'Leave request updated successfully!')
-            return redirect('head_officers')
+                leave_request.processed_on = timezone.now()
+                leave_request.save()
+                messages.success(request, 'Leave request updated successfully!')
+                return redirect('head_officers')
 
     else:
         form = LeaveApprovalForm()
@@ -269,6 +374,13 @@ def head_officers(request):
         'form': form,
     })
 
+GOVERNMENT_HOLIDAYS = [
+    # Format: datetime.date(year, month, day)
+    date(2024, 1, 1),   # Example: New Year's Day
+    date(2024, 12, 25), # Example: Christmas Day
+    date(2024, 9, 16),
+    # Add other government holidays here
+]
 
 @login_required
 def attendance_page(request):
@@ -278,9 +390,48 @@ def attendance_page(request):
         employee = None
 
     today = timezone.now().date()
+    weekday = today.weekday()  # Monday is 0, Sunday is 6
+
+    # Check if today is a government holiday
+    is_government_holiday = today in GOVERNMENT_HOLIDAYS
+
+    # Check if the employee is on approved leave today
+    is_on_leave = LeaveRequest.objects.filter(
+        employee=employee,
+        start_date__lte=today,
+        end_date__gte=today,
+        status__in=['Approved by Team Lead', 'Approved by Manager']
+    ).exists()
+
+    # Fetch or create the attendance record for today
     attendance, created = Attendance.objects.get_or_create(employee=employee, date=today)
 
-    if request.method == 'POST':
+    # Logic: Mark as government holiday
+    if is_government_holiday:
+        attendance.status = 'On Leave'
+        attendance.check_in_time = None
+        attendance.check_out_time = None
+        attendance.save()
+        messages.info(request, 'Today is a government holiday.')
+
+    # Logic: Mark Saturday and Sunday as holidays
+    elif weekday == 5 or weekday == 6:
+        attendance.status = 'On Leave'
+        attendance.check_in_time = None
+        attendance.check_out_time = None
+        attendance.save()
+        messages.info(request, 'Today is a weekend holiday.')
+    
+    # Logic: If the employee is on approved leave
+    elif is_on_leave:
+        attendance.status = 'On Leave'
+        attendance.check_in_time = None
+        attendance.check_out_time = None
+        attendance.save()
+        messages.info(request, 'You are on leave today.')
+
+    # Your existing check-in/check-out logic
+    elif request.method == 'POST':
         if 'check_in' in request.POST:
             if attendance.check_in_time is None:
                 attendance.check_in_time = timezone.localtime().time()
@@ -312,9 +463,14 @@ def attendance_page(request):
 
         return redirect('attendance')
 
+    # Auto-absent if no check-in and it's a weekday
+    elif attendance.check_in_time is None and weekday < 5:
+        attendance.status = 'Absent'
+        attendance.save()
+
     # Determine the view type
     view_type = request.GET.get('view', 'table')
-    
+
     # Get all attendance records for the current month
     attendance_records = Attendance.objects.filter(employee=employee, date__month=today.month).order_by('-date')
 
@@ -332,12 +488,14 @@ def attendance_page(request):
 
         attendance.save()
 
-    return render(request, 'main/attendance.html', {
-        'employee': employee,
+    context = {
         'attendance': attendance,
         'attendance_records': attendance_records,
         'view_type': view_type,
-    })
+    }
+
+    return render(request, 'main/attendance.html', context)
+
 
 def logout_view(request):
     if request.user.is_authenticated:

@@ -2,7 +2,7 @@
 Solutions | Dashboard {% endblock title %} {% block content %}
 <link
   rel="stylesheet"
-  href="{% static 'css/dashboard_v4.css' %}"
+  href="{% static 'css/dashboard_v6.css' %}"
   type="text/css"
 />
 {% include 'main/message.html' %}
@@ -39,11 +39,11 @@ Solutions | Dashboard {% endblock title %} {% block content %}
         </div>
         <div class="summary-item">
           <h3 class="summary-title">Active Employees</h3>
-          <p class="summary-value">{{ checked_in_count }}</p>
+          <p class="summary-value">{{ active_count }}</p>
         </div>
         <div class="summary-item">
           <h3 class="summary-title">Inactive Employees</h3>
-          <p class="summary-value">{{ not_checked_in_count }}</p>
+          <p class="summary-value">{{ inactive_count }}</p>
         </div>
       </div>
       

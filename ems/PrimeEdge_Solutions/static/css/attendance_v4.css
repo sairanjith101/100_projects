@@ -1,4 +1,10 @@
-section{
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+body{
+    font-family: "Poppins", sans-serif;
+}
+
+section {
   height: auto;
 }
 
@@ -40,7 +46,7 @@ h3 {
 }
 
 .attendance-table th {
-  background-color: #007bff;
+  background-color: #343a40;
   color: #fff;
 }
 
@@ -65,22 +71,22 @@ h3 {
 }
 
 .status-present::before {
-  content: '✔';
+  content: "✔";
   margin-right: 5px;
 }
 
 .status-absent::before {
-  content: '✘';
+  content: "✘";
   margin-right: 5px;
 }
 
 .status-halfday::before {
-  content: '⏳';
+  content: "⏳";
   margin-right: 5px;
 }
 
 .status-onleave::before {
-  content: '🛌';
+  content: "🛌";
   margin-right: 5px;
 }
 
@@ -116,9 +122,9 @@ h3 {
 }
 
 .btn-toggle.active {
-  background-color: #007bff;
+  background-color: #006838;
   color: #fff;
-  border-color: #007bff;
+  border-color: #006838;
 }
 
 /* Calendar Styles */
@@ -128,21 +134,95 @@ h3 {
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .attendance-table th, .attendance-table td {
+@media (max-width: 1200px) {
+  .attendance-section .container {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  h2#att {
+    font-size: 1.8em;
+  }
+
+  h3 {
+    font-size: 1.4em;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
     padding: 8px;
   }
-  
+
   .btn {
     padding: 8px 12px;
   }
-  
+
   .btn-toggle {
     padding: 8px 15px;
     font-size: 0.9em;
+  }
+}
+
+@media (max-width: 768px) {
+  .attendance-table {
+    font-size: 0.9em;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    text-align: right;
+    border: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .attendance-table th {
+    text-align: left;
+    background-color: #343a40;
+  }
+
+  .attendance-table td {
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .status-present::before,
+  .status-absent::before,
+  .status-halfday::before,
+  .status-onleave::before {
+    display: inline-block;
+    margin-right: 0;
+  }
+
+  .calendar {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  h2#att {
+    font-size: 1.6em;
+  }
+
+  h3 {
+    font-size: 1.2em;
+  }
+
+  .btn {
+    padding: 7px 10px;
+    font-size: 0.9em;
+  }
+
+  .btn-toggle {
+    padding: 7px 12px;
+    font-size: 0.8em;
   }
 }

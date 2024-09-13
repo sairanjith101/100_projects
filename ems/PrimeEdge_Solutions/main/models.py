@@ -87,20 +87,17 @@ class LeaveRequest(models.Model):
         return f'{self.employee} - {self.leave_type} - {self.status}'
     
 
-def setup_manager_permissions():
-    # Create a new group for managers if it doesn't exist
-    manager_group, created = Group.objects.get_or_create(name='Managers')
-    
-    # Add all permissions to the manager group
-    content_types = ContentType.objects.all()
-    for content_type in content_types:
-        permissions = Permission.objects.filter(content_type=content_type)
-        manager_group.permissions.add(*permissions)
+# def setup_manager_permissions():
 
-    # Create or get the manager user
-    manager_user, created = User.objects.get_or_create(username='manager', defaults={
-        'password': 'password',  # Set a default password or generate one
-    })
+#     manager_group, created = Group.objects.get_or_create(name='Managers')
     
-    # Add the manager user to the manager group
-    manager_user.groups.add(manager_group)
+#     content_types = ContentType.objects.all()
+#     for content_type in content_types:
+#         permissions = Permission.objects.filter(content_type=content_type)
+#         manager_group.permissions.add(*permissions)
+
+#     manager_user, created = User.objects.get_or_create(username='manager', defaults={
+#         'password': 'password',
+#     })
+    
+#     manager_user.groups.add(manager_group)

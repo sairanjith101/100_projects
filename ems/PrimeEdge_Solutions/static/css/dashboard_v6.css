@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
 /* General Styling */
 body {
   font-family: "Poppins", sans-serif;
@@ -132,6 +134,7 @@ section {
 .employee-summary {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
@@ -139,6 +142,7 @@ section {
   flex: 1;
   margin: 0 10px;
   text-align: center;
+  min-width: 150px;
 }
 
 .summary-title {
@@ -207,26 +211,29 @@ section {
   color: #6c757d;
 }
 
-/* Responsive Design */
+/* Responsive Design for Total Employees Section */
 @media (max-width: 768px) {
-  .project-item,
-  .team-item {
-    width: 100%;
+  .employee-summary {
+    flex-direction: column;
+  }
+
+  .summary-item {
+    margin-bottom: 20px;
+    text-align: center;
   }
 }
 
 @media (max-width: 480px) {
-  .dashboard-container {
-    padding: 10px;
+  .employee-summary {
+    padding: 0 10px;
   }
 
-  .section-title {
-    font-size: 24px;
-  }
-
-  .summary-title,
-  .summary-value {
+  .summary-title {
     font-size: 18px;
+  }
+
+  .summary-value {
+    font-size: 20px;
   }
 }
 
