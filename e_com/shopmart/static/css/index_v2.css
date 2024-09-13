@@ -1,11 +1,18 @@
 /* Reset and General Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body,
 html {
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 /* Container Styles */
@@ -13,6 +20,8 @@ html {
   width: 90%;
   margin: auto;
   overflow: hidden;
+  padding-left: 15px; /* Adjust as needed */
+  padding-right: 15px; /* Adjust as needed */
 }
 
 /* Flexbox Grid Styles */
@@ -24,19 +33,6 @@ html {
 /* Column Styles */
 .col-12 {
   width: 100%;
-}
-
-/* Section Padding Styles */
-.py-4 {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.my-5 {
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 /* Product Grid Styles */
@@ -55,7 +51,7 @@ html {
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s; /* Transition added here */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .product-card:hover {
@@ -99,27 +95,15 @@ html {
   margin-bottom: 1rem;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .product-card {
-    flex: 1 1 calc(33.33% - 20px);
-    max-width: calc(33.33% - 20px);
-  }
-}
 
-@media (max-width: 900px) {
-  .product-card {
-    flex: 1 1 calc(50% - 20px);
-    max-width: calc(50% - 20px);
-  }
-}
 
-@media (max-width: 600px) {
+/* @media only screen and (max-width: 600px) {
   .product-card {
     flex: 1 1 100%;
     max-width: 100%;
   }
-}
+} */
+
 
 /* Price Styles */
 .original-price {
@@ -145,44 +129,78 @@ html {
   float: right;
 }
 
-/* Title Styles */
-#awesome-title {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 1rem;
+/* Clearfix for Floats */
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-/* Custom styles for breadcrumb */
-.breadcrumb {
-  display: flex; /* Ensure horizontal layout */
-  flex-wrap: nowrap; /* Prevent wrapping to next line */
-  /* background-color: #f8f9fa; */
-  padding: 10px; /* Padding around the breadcrumb */
-  border-radius: 5px; /* Rounded corners */
-  list-style: none; /* Remove default list styling */
-  margin: 0; /* Remove default margin */
-  padding-left: 0; /* Remove default padding */
+
+/* Responsive Adjustments */
+
+/* Adjust product card sizes for larger screens */
+@media (min-width: 1200px) {
+  .product-card {
+    flex: 1 1 calc(18% - 20px);
+    max-width: calc(18% - 20px);
+  }
 }
 
-.breadcrumb-item {
-  margin-right: 0.5rem; /* Space between breadcrumb items */
+/* Adjust product card sizes for medium screens */
+@media (max-width: 992px) {
+  .product-card {
+    flex: 1 1 calc(25% - 20px);
+    max-width: calc(25% - 20px);
+  }
+
+  .product-card .card-image {
+    height: 150px;
+    padding-bottom: 0;
+  }
+
+  .product-card .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
-  content: "/";
-  color: #6c757d; /* Grey color for separator */
-  margin-right: 0.5rem; /* Space after separator */
+/* Adjust product card sizes for small screens */
+@media (max-width: 768px) {
+  .product-card {
+    flex: 1 1 calc(50% - 15px);
+    max-width: calc(50% - 15px);
+  }
+
+  .product-card .card-image {
+    height: 150px;
+    padding-bottom: 0;
+  }
+
+  .product-card .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
-.breadcrumb-item a {
-  color: #007bff; /* Link color */
-  text-decoration: none; /* Remove underline */
+@media (max-width: 400px) {
+  .product-card {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+  }
+
+  .product-card .card-image {
+    height: 150px;
+    padding-bottom: 0;
+  }
+
+  .product-card .card-image img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+  }
 }
 
-.breadcrumb-item a:hover {
-  text-decoration: underline; /* Underline on hover */
-}
 
-.breadcrumb-item.active {
-  color: #6c757d; /* Active breadcrumb color */
-}

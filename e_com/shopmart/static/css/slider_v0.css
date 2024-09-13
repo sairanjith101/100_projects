@@ -18,7 +18,7 @@ html {
 /* Slider Styles */
 .slider {
   margin-top: -17px;
-  height: 50vh; /* Adjust as needed */
+  height: 50vh;
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -28,11 +28,11 @@ html {
   display: flex;
   transition: transform 0.5s ease-in-out;
   height: 100%;
-  width: 400%; /* Ensure the container is wide enough to hold all images */
+  width: 400%;
 }
 
 .slider .slides img {
-  width: 25%; /* Each image should take up an equal portion of the container */
+  width: 25%;
   height: 100%;
   object-fit: cover;
 }
@@ -52,14 +52,39 @@ html {
   color: white;
   padding: 10px;
   cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.navigation button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* Media Query for Responsive Adjustments */
 @media (max-width: 768px) {
   .slider {
-    height: 30vh; /* Adjust slider height for smaller screens */
+    height: 40vh;
+  }
+  .slider .slides {
+    width: 300%;
   }
   .slider .slides img {
-    width: 100%; /* Adjust image width for smaller screens */
+    width: 33.33%;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider {
+    height: 30vh;
+  }
+  .slider .slides {
+    width: 400%;
+  }
+  .slider .slides img {
+    width: 25%;
+  }
+  .navigation button {
+    padding: 8px;
+    font-size: 16px;
   }
 }

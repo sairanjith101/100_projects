@@ -80,7 +80,8 @@ body {
 }
 
 /* Button Styling */
-.btn-remove, .btn-buy {
+.btn-remove,
+.btn-buy {
   display: inline-flex;
   align-items: center;
   padding: 5px 10px;
@@ -112,7 +113,8 @@ body {
 }
 
 /* Ensure no extra margin */
-.btn-remove i, .btn-buy i {
+.btn-remove i,
+.btn-buy i {
   margin: 0;
 }
 
@@ -122,11 +124,10 @@ body {
   align-items: center;
 }
 
-.btn-buy i, .btn-remove i {
+.btn-buy i,
+.btn-remove i {
   margin-right: 5px;
 }
-
-
 
 /* Additional Styling */
 h4 {
@@ -141,4 +142,79 @@ hr {
 
 #net {
   font-weight: bold;
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+  .cart-table th,
+  .cart-table td {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .cart-table img {
+    max-height: 60px; /* Adjust image size for smaller screens */
+  }
+
+  .btn-remove,
+  .btn-buy {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .cart-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .cart-table thead {
+    display: none;
+  }
+
+  .cart-table tbody,
+  .cart-table tr {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .cart-table td {
+    display: block;
+    text-align: left;
+    padding: 10px;
+    position: relative;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .cart-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 45%;
+    padding-left: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    text-align: left;
+    top: 10px;
+  }
+
+  .cart-table td:last-child {
+    border-bottom: none;
+  }
+
+  .cart-table img {
+    max-height: 50px; /* Adjust image size for mobile phones */
+  }
+
+  .btn-remove,
+  .btn-buy {
+    padding: 8px 10px;
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
 }

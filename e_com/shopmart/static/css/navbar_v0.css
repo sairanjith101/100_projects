@@ -103,3 +103,80 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 } */
+
+/* Responsive design for screens smaller than 768px (tablets and mobile) */
+@media (max-width: 768px) {
+  /* Stack the menu items vertically */
+  .menu__bar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 10px;
+  }
+
+  /* Align the logo at the center */
+  .logo {
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Stack menu items vertically */
+  .menu__bar ul {
+    flex-direction: column;
+    width: 100%;
+    padding-left: 0;
+  }
+
+  /* Make each menu item take full width and be left-aligned */
+  .menu__bar ul li {
+    width: 100%;
+    text-align: left;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-black-1);
+  }
+
+  /* Adjust the link styles for mobile */
+  .menu__bar ul li a {
+    font-size: 18px;
+    padding: 10px 0;
+    display: block;
+    width: 100%;
+  }
+
+  /* Dropdowns should be aligned and responsive */
+  .dropdown__menu {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-black);
+  }
+
+  .dropdown__menu ul li {
+    width: 100%;
+  }
+
+  .dropdown__menu-1 {
+    position: relative;
+    width: 100%;
+  }
+}
+
+/* Media query for screens smaller than 480px (mobile phones) */
+@media (max-width: 480px) {
+  /* Reduce padding on smaller screens */
+  .menu__bar {
+    padding: 5px;
+  }
+
+  /* Further adjust logo size */
+  .logo {
+    font-size: 20px;
+  }
+
+  /* Further adjust menu item font size */
+  .menu__bar ul li a {
+    font-size: 16px;
+    padding: 8px 0;
+  }
+}

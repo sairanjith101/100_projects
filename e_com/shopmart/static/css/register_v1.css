@@ -113,3 +113,87 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+/* Error message styles */
+.text-danger {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  display: block;
+  margin-left: 50px;
+}
+
+
+/* Responsive Design */
+
+/* For tablets and below (screen width 768px and below) */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .col-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+  }
+
+  .form-label {
+    font-size: 0.875rem;
+  }
+
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="password"] {
+    padding: 0.4rem;
+    font-size: 0.875rem;
+  }
+
+  button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.875rem;
+  }
+
+  .text-danger {
+    font-size: 0.75rem;
+    margin-left: 0; /* Adjust to avoid too much spacing */
+  }
+}
+
+/* For mobile devices (screen width 576px and below) */
+@media (max-width: 576px) {
+  .container {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+
+  .form-label {
+    font-size: 0.75rem;
+  }
+
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="password"] {
+    padding: 0.3rem;
+    font-size: 0.75rem;
+  }
+
+  button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .text-danger {
+    font-size: 0.65rem;
+    margin-left: 0; /* Adjust to avoid too much spacing */
+  }
+}
